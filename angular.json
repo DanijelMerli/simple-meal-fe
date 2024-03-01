@@ -3,9 +3,19 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "simple-meal-fe": {
+    "simple-meal": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/simple-meal-fe",
+            "outputPath": "dist/simple-meal",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -68,10 +78,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "simple-meal-fe:build:production"
+              "buildTarget": "simple-meal:build:production"
             },
             "development": {
-              "buildTarget": "simple-meal-fe:build:development"
+              "buildTarget": "simple-meal:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +89,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "simple-meal-fe:build"
+            "buildTarget": "simple-meal:build"
           }
         },
         "test": {
@@ -105,6 +115,6 @@
     }
   },
   "cli": {
-    "analytics": "aafff927-c2fc-4ae9-9750-ab31aad2d71f"
+    "analytics": "ee041049-c58f-425e-a63c-915ec52ca390"
   }
 }
