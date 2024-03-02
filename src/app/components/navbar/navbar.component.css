@@ -2,10 +2,54 @@
     flex: 1 1 auto;
   }
 
-span {
-    margin-right: 10px;
+.btns {
+    margin-left: 5px;
 }
 
-button {
-    margin-left: 10px;
+
+.big{
+    font-size: 150%;
 }
+
+/* div {
+    overflow: inherit;
+} */
+
+a {
+    text-decoration: none;
+    white-space: normal;
+}
+
+button{
+    min-width: min-content;
+}
+
+.mat-sidenav-content{
+    font-size: 200%;
+    text-align: center;
+}
+
+button.mat-icon-button:hover {
+    background-color: transparent !important;
+}
+
+.space {
+    margin-left: 5px;
+}
+
+.mat-drawer-container {
+    background-color: rgb(253, 245, 134);
+}
+
+span {
+    font-size: 150%;
+}
+
+/* .cdk-focused, .cdk-program-focused {
+    outline: none;
+    background-color: white;
+}
+
+.mat-md-focus-indicator {
+    outline: none;
+} */
