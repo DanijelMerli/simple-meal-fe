@@ -1,0 +1,37 @@
+<p>
+    <mat-toolbar style="background: yellow;">
+      <button [routerLink]="'/home'" mat-icon-button>
+        <mat-icon>fastfood</mat-icon>
+        <!-- <mat-icon>restaurant</mat-icon> -->
+      </button>
+      <span>Simple Meal</span>
+      <span class="spacer"></span>
+      <button [routerLink]="'/register'" *ngIf="!isTokenPresent" mat-raised-button>Sign up</button>
+      <button (click)="login()" [routerLink]="'/login'" *ngIf="!isTokenPresent" mat-stroked-button>Log in</button>
+      <button (click)="logout()" [routerLink]="'/home'" *ngIf="isTokenPresent" mat-button>Log out</button>
+    </mat-toolbar>
+</p>
+  
+  <!-- <p>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>My App</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </mat-toolbar-row>
+  
+      <mat-toolbar-row>
+        <span>Second Line</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+          <mat-icon>favorite</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+          <mat-icon>share</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </p> -->
+  
