@@ -6,11 +6,6 @@
     margin-left: 5px;
 }
 
-
-.big{
-    font-size: 150%;
-}
-
 /* div {
     overflow: inherit;
 } */
@@ -24,10 +19,10 @@ button{
     min-width: min-content;
 }
 
-.mat-sidenav-content{
+/* .mat-sidenav-content{
     font-size: 200%;
     text-align: center;
-}
+} */
 
 button.mat-icon-button:hover {
     background-color: transparent !important;

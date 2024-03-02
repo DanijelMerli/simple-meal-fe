@@ -9,7 +9,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 // material
 import { MatIconModule } from '@angular/material/icon';
-import {MatSidenavModule} from  '@angular/material/sidenav';
+import { MatSidenavModule } from  '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
