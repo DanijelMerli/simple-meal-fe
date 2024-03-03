@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +13,7 @@ export class RegistrationComponent {
   
   
 
-  constructor() {
+  constructor(private router: Router) {
     
     this.registrationForm = new FormGroup(
       {
@@ -37,6 +38,7 @@ export class RegistrationComponent {
     if (this.registrationForm.valid) {
       console.log(this.registrationForm.value);
       alert("uspesno");
+      this.router.navigate(['login']);
     } else {
       alert("nije uspesno");
     }
