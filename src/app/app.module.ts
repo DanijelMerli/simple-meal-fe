@@ -16,12 +16,22 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 // components
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegistrationComponent } from './components/registration/registration.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    NavbarComponent
+    NavbarComponent,
+    LoginComponent,
+    RegistrationComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -33,7 +43,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     MatSidenavModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
-
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideAnimationsAsync()
