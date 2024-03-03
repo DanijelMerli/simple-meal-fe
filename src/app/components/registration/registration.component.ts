@@ -11,7 +11,6 @@ export class RegistrationComponent {
 
   
   
-  
 
   constructor() {
     
