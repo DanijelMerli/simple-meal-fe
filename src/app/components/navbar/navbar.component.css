@@ -48,3 +48,8 @@ span {
 .mat-md-focus-indicator {
     outline: none;
 } */
+
+.tool-bar {
+    background: yellow; 
+    margin-bottom: 10px;
+}
