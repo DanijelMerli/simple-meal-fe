@@ -9,8 +9,6 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 export class RegistrationComponent {
   registrationForm!: FormGroup;
 
-  
-  
 
   constructor() {
     

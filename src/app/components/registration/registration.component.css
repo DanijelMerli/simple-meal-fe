@@ -24,12 +24,20 @@ input[type="password"] {
 button {
   padding: 10px 20px;
   background-color: #e6f918d7;
-  color: #fff;
   border: none;
+  color: #8e8e8e;
   border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
   background-color: #e4f806f6;
+}
+
+button[disabled]{
+  cursor: not-allowed !important;
+}
+
+.error {
+  color: red;
 }
