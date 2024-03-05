@@ -3,8 +3,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from  '@angular/material/sidenav';
-import { JwtService } from '../../jwt/jwt.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
   isLogin: boolean = false;
   isHome: boolean = false;
 
-  constructor(private router: Router, private jwtService: JwtService) {
+  constructor(private router: Router, private userService: UserService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         
@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    let token = this.jwtService.getToken();
+    let token = this.userService.getToken();
     // console.log(token);
     if (token == null || token == undefined) {
       this.isTokenPresent = false;
@@ -51,13 +51,13 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.jwtService.clearToken();
+    this.userService.clearToken();
     // this.router.navigate(['']).then(()=>{location.reload();});
     this.isTokenPresent = false;
   }
 
-  login() {
-    // this.jwtService.setToken("blablabla");
-    this.isTokenPresent = true;
-  }
+  // login() {
+  //   // this.jwtService.setToken("blablabla");
+  //   this.isTokenPresent = true;
+  // }
 }
