@@ -1,3 +1,4 @@
+
 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
   <div>
     <mat-label>First Name:</mat-label>
@@ -51,3 +52,9 @@
   </div>
   <button  type="submit"  [disabled]="registrationForm.invalid" >Register</button>
 </form>
+
+<div *ngIf="failedRegisterMsg" class="error center">
+  {{ failedRegisterMsg }}
+</div>
+
+

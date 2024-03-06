@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserDTO } from './dto/UserDTO';
+import { UserService } from './service/user.service';
+import { Router } from '@angular/router';
+import { catchError, tap, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
@@ -8,10 +13,9 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 })
 export class RegistrationComponent {
   registrationForm!: FormGroup;
+  failedRegisterMsg: string='';
 
-
-  constructor() {
-    
+  constructor(private userService: UserService,private router: Router) {
     this.registrationForm = new FormGroup(
       {
       firstName: new FormControl( '', [Validators.required]),
@@ -31,12 +35,28 @@ export class RegistrationComponent {
       }
     
 
-  onSubmit() {
-    if (this.registrationForm.valid) {
-      console.log(this.registrationForm.value);
-      alert("uspesno");
-    } else {
-      alert("nije uspesno");
+      onSubmit() {
+        if (this.registrationForm.valid) {
+          const formData = this.registrationForm.value;
+          const user = new UserDTO(formData);
+          alert(user.email);
+          this.userService.registerUser(user).pipe(
+            tap(response => {
+              //  routing to login
+              this.router.navigate(['/login']);
+            }),
+            catchError(error =>{ if (error instanceof HttpErrorResponse) {
+              // Backend error
+              this.failedRegisterMsg = 'Backend error:' + error.message;
+            } else {
+              // Frontend error
+              this.failedRegisterMsg='Frontend error:'+ error.message;
+            }
+            return throwError(() => new Error(error));
+          }
+          )).subscribe();
+        } else {
+          this.failedRegisterMsg="Something went wrong..."
+        }
+      }
     }
-  }
-}
