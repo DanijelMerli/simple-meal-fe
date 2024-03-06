@@ -7,12 +7,14 @@ mat-paginator{
   }
 
   .form-container {
-    background: #fedc1d;
+    /* background: #fedc1d; */
     border-radius: 0.7rem;
     color: #000000;
     padding: 1rem;
-    width: 60%;
-    margin-left: 20%;
+    width: fit-content;
+    max-width: 80%;
+    /* margin-left: 20%; */
+    margin: auto;
     margin-top: 20px;
     align-items: center;
   }
@@ -32,7 +34,6 @@ mat-paginator{
   }
 
   .mat-table {
-    background: #517911;
     width: 100%;
 }
 
@@ -45,4 +46,35 @@ td {
 th {
     align-items: center;
     text-align: center;
+    /* background-color: #fedc1d; */
 }
+
+.header {
+  background: #fedc1d;
+}
+
+.mat-table th,
+.mat-table td {
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+.card-body {
+  margin-bottom: 10px;
+}
+
+.price {
+  color: green;
+}
+
+.early {
+  color: red;
+}
+
+h3 {
+  margin-bottom: 5px;
+  color: #32322f;
+  font-weight: bold;
+}
+
+

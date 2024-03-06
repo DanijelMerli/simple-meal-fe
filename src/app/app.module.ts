@@ -7,6 +7,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+
 
 // material
 import { MatIconModule } from '@angular/material/icon';
@@ -54,6 +56,7 @@ import { MenuComponent } from './components/menu/menu.component';
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
+    DatePipe, 
   ],
   providers: [
     provideAnimationsAsync()
