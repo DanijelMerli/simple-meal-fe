@@ -10,12 +10,12 @@ export interface MenuDTO {
 export interface WeeklyMenuDTO {
     idWeeklyMenu: number;
     dailyMenu: Array<DailyMenuDTO>;
-    startDate: Date;
+    startDate: string;
 }
 
 export interface DailyMenuDTO {
     idDailyMenu: number;
-    dateMenu: Date;
+    dateMenu: string;
     regular: MealsDTO;
     fit: MealsDTO;
     soup: ExtraDTO;

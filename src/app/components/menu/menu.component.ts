@@ -60,7 +60,10 @@ export class MenuComponent implements OnInit{
       let result = await this.service.getMenu().toPromise();
       if (result != undefined) {
         // console.log(result);
-        this.menu = result.dailyMenu;
+        let dailyMenuList = result.dailyMenu;
+        dailyMenuList.sort((a: DailyMenuDTO, b: DailyMenuDTO) => this.convertDate(a.dateMenu).getTime() - this.convertDate(b.dateMenu).getTime());
+        console.log(dailyMenuList);
+        this.menu = dailyMenuList;
         this.startDateStr = result.startDate;
         this.startDate = this.convertDate(this.startDateStr);
         this.endDate = this.calculateEndDate(this.startDate);
@@ -102,6 +105,7 @@ export class MenuComponent implements OnInit{
       this.dataSource.sort = this.sort;
     } else {
       this.cards = true;
+      this.dates.splice(0);
       this.menu.forEach(element => {
         // console.log(element.dateMenu);
         this.dates.push(element.dateMenu);
