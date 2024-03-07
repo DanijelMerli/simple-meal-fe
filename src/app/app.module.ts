@@ -6,12 +6,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+
 
 // material
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from  '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
+
 
 // components
 import { HomePageComponent } from './components/home-page/home-page.component';
@@ -21,7 +27,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { MenuComponent } from './components/menu/menu.component';
 
 
 @NgModule({
@@ -31,6 +37,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     NavbarComponent,
     LoginComponent,
     RegistrationComponent,
+    MenuComponent,
     
   ],
   imports: [
@@ -45,7 +52,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     BrowserAnimationsModule,
     MatInputModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    DatePipe, 
   ],
   providers: [
     provideAnimationsAsync()
