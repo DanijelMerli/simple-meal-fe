@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
-import { MenuDTO } from '../dtos/MenuDTO';
+import { WeeklyMenuDTO } from '../dtos/MenuDTO';
 
 @Injectable({
   providedIn: 'root'
