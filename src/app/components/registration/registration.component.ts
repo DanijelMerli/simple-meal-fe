@@ -39,24 +39,24 @@ export class RegistrationComponent {
         if (this.registrationForm.valid) {
           const formData = this.registrationForm.value;
           const user = new UserDTO(formData);
-          alert(user.email);
           this.userService.registerUser(user).pipe(
             tap(response => {
               //  routing to login
               this.router.navigate(['/login']);
+
             }),
             catchError(error =>{ if (error instanceof HttpErrorResponse) {
-              // Backend error
+              
               this.failedRegisterMsg = 'Backend error:' + error.message;
             } else {
-              // Frontend error
+
               this.failedRegisterMsg='Frontend error:'+ error.message;
             }
             return throwError(() => new Error(error));
           }
           )).subscribe();
         } else {
-          this.failedRegisterMsg="Something went wrong..."
+          this.failedRegisterMsg="Something went wrong...";
         }
       }
     }
