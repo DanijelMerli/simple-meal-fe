@@ -46,8 +46,8 @@ export class RegistrationComponent {
 
             }),
             catchError(error =>{ if (error instanceof HttpErrorResponse) {
-              
-              this.failedRegisterMsg = 'Backend error:' + error.message;
+              console.log(error.error.message)
+              this.failedRegisterMsg = 'Backend error:' + this.mapErrorMessage(error.error.message);
             } else {
 
               this.failedRegisterMsg='Frontend error:'+ error.message;
@@ -59,4 +59,18 @@ export class RegistrationComponent {
           this.failedRegisterMsg="Something went wrong...";
         }
       }
+    
+
+
+    mapErrorMessage(errorMessage: string): string {
+      
+      if (errorMessage.includes('email')) {
+        return 'Email is already in use. Please choose a different email.';
+      } else if (errorMessage.includes('registration')) {
+        return 'Registration failed. Please try again later.';
+      } else {
+        return 'An unknown error occurred. Please try again later.';
+      }
     }
+  }
+    
