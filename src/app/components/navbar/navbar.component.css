@@ -1,0 +1,55 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+
+.btns {
+    margin-left: 5px;
+}
+
+/* div {
+    overflow: inherit;
+} */
+
+a {
+    text-decoration: none;
+    white-space: normal;
+}
+
+button{
+    min-width: min-content;
+}
+
+/* .mat-sidenav-content{
+    font-size: 200%;
+    text-align: center;
+} */
+
+button.mat-icon-button:hover {
+    background-color: transparent !important;
+}
+
+.space {
+    margin-left: 5px;
+}
+
+.mat-drawer-container {
+    background-color: rgb(253, 245, 134);
+}
+
+span {
+    font-size: 150%;
+}
+
+/* .cdk-focused, .cdk-program-focused {
+    outline: none;
+    background-color: white;
+}
+
+.mat-md-focus-indicator {
+    outline: none;
+} */
+
+.tool-bar {
+    background: yellow; 
+    margin-bottom: 10px;
+}

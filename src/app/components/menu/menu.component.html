@@ -1,0 +1,217 @@
+<div *ngIf="!cards" class="table-container">
+  <h1>Week {{startDateStr}} - {{endDateStr}}</h1>
+  <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <!-- <td mat-cell *matCellDef="let element"> {{today | date:'EEEE dd.MM.yyyy.'}}</td> -->
+      <td mat-cell *matCellDef="let element"> {{element.dateMenu}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="regularMeal">
+      <th mat-header-cell *matHeaderCellDef>Regular Meal</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="!element.regular">/</span>
+        <div *ngIf="element.regular" class="card-body">
+          <h3 class="card-title">{{element.regular.name}}</h3>
+          <p class="card-text">({{element.regular.description}})</p>
+          <span class="price">Big: {{element.regular.smallPrice}} din | Small: {{element.regular.largePrice}} din</span> <br/>
+          <span *ngIf="element.regular.shouldOrderEarly" class="early">*should order a day early</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fitMeal">
+      <th mat-header-cell *matHeaderCellDef>Fit Meal</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="!element.fit">/</span>
+          <div *ngIf="element.fit" class="card-body">
+            <h3 class="card-title">{{element.fit.name}}</h3>
+            <p class="card-text">({{element.fit.description}})</p>
+            <span class="price"> {{element.fit.largePrice}} din</span> <br/>
+            <span *ngIf="element.fit.shouldOrderEarly" class="early">*should order a day early</span>
+          </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="extra-soup">
+      <th mat-header-cell *matHeaderCellDef>Soup <br/>
+        <span class="early">*should order a day early</span>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="!element.soup">/</span>
+        <div *ngIf="element.soup" class="card-body">
+          <h3 class="card-title">{{element.soup.name}}</h3>
+          <p class="card-text">({{element.soup.description}})</p>
+          <span class="price">{{element.soup.price}} din</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="extra-dessert">
+      <th mat-header-cell *matHeaderCellDef>Dessert <br/>
+        <span class="early">*should order a day early</span></th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="!element.dessert">/</span>
+        <div *ngIf="element.dessert" class="card-body">
+          <h3 class="card-title">{{element.dessert.name}}</h3>
+          <p class="card-text">({{element.dessert.description}})</p>
+          <span class="price">{{element.dessert.price}} din</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Meal Type</th>
+      <td mat-cell *matCellDef="let element">{{ element.typeMenu }}</td>
+    </ng-container> -->
+  
+
+    <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let element; columns: displayedColumns"
+    ></tr>
+  </table>
+</div>
+
+<div *ngIf="cards" class="card-container">
+  <h1>Week {{startDateStr}} - {{endDateStr}}</h1>
+  <form
+      method="POST"
+      [formGroup]="selectForm" 
+    >
+      <label>Choose date:</label>
+      <select #issuer class="element" name="dateMenu" formControlName="dateMenu">
+        <option class="option" *ngFor="let option of dates;let i = 'index';" [value]="option">{{option}}</option>
+      </select>
+    </form>
+
+    <div *ngIf="cardsCurrentDate">
+
+      <div class="card">
+        <div class="card-header">
+          Regular Meal:
+        </div>
+        <ul *ngIf="cardsCurrentMeals?.regular" class="list-group list-group-flush">
+          <li class="list-group-item"><h2>{{cardsCurrentMeals?.regular?.name}}</h2></li>
+          <li class="list-group-item">{{cardsCurrentMeals?.regular?.description}}</li>
+          <li class="list-group-item price">Big: {{cardsCurrentMeals?.regular?.largePrice}} din | Small: {{cardsCurrentMeals?.regular?.smallPrice}} din</li>
+          <li *ngIf="cardsCurrentMeals?.regular?.shouldOrderEarly" class="list-group-item early">*should order a day early</li>
+        </ul>
+        <ul *ngIf="!cardsCurrentMeals?.regular" class="list-group list-group-flush">
+          <li class="list-group-item"><h2>None for today</h2></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          Fit Meal:
+        </div>
+        <ul *ngIf="cardsCurrentMeals?.fit" class="list-group list-group-flush">
+          <li class="list-group-item"><h2>{{cardsCurrentMeals?.fit?.name}}</h2></li>
+          <li class="list-group-item">{{cardsCurrentMeals?.fit?.description}}</li>
+          <li class="list-group-item price">{{cardsCurrentMeals?.fit?.largePrice}} din</li>
+          <li *ngIf="cardsCurrentMeals?.regular?.shouldOrderEarly" class="list-group-item early">*should order a day early</li>
+        </ul>
+        <ul *ngIf="!cardsCurrentMeals?.fit" class="list-group list-group-flush">
+          <li class="list-group-item"><h2>None for today</h2></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span>Soup:</span> <br/>
+          <span class="early">*should order a day early</span>
+        </div>
+        <ul *ngIf="cardsCurrentMeals?.soup" class="list-group list-group-flush">
+          <li class="list-group-item"><h2>{{cardsCurrentMeals?.soup?.name}}</h2></li>
+          <li class="list-group-item">{{cardsCurrentMeals?.soup?.description}}</li>
+          <li class="list-group-item price">{{cardsCurrentMeals?.soup?.price}} din</li>
+        </ul>
+        <ul *ngIf="!cardsCurrentMeals?.soup" class="list-group list-group-flush">
+          <li class="list-group-item"><h2>None for today</h2></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span>Dessert:</span> <br/>
+          <span class="early">*should order a day early</span>
+        </div>
+        <ul *ngIf="cardsCurrentMeals?.dessert" class="list-group list-group-flush">
+          <li class="list-group-item"><h2>{{cardsCurrentMeals?.dessert?.name}}</h2></li>
+          <li class="list-group-item">{{cardsCurrentMeals?.dessert?.description}}</li>
+          <li class="list-group-item price">{{cardsCurrentMeals?.dessert?.price}} din</li>
+        </ul>
+        <ul *ngIf="!cardsCurrentMeals?.dessert" class="list-group list-group-flush">
+          <li class="list-group-item"><h2>None for today</h2></li>
+        </ul>
+      </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+<!-- <div class="form-container">
+    <table mat-table [dataSource]="dataSource" class="mat-table-bordered" matSort>
+  
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let element">{{ element.price }} din</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="size">
+        <th mat-header-cell *matHeaderCellDef>Size</th>
+        <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.size">{{element.size}}</span>
+            <span *ngIf="!element.size">/</span>
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="special">
+        <th mat-header-cell *matHeaderCellDef>Should order early</th>
+        <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.special">Yes</span>
+            <span *ngIf="!element.special">No</span>
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h3 class="card-title">Special title treatment</h3>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Meal Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.typeMenu }}</td>
+      </ng-container>
+  
+
+     <ng-container matColumnDef="order">
+        <th mat-header-cell *matHeaderCellDef>Order</th>
+        <td mat-cell *matCellDef="let element">
+          <button class="yellowBtn" (click)="order(element)">Order</button>
+        </td>
+      </ng-container> -->
+    
+  
+      <!-- <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: displayedColumns"
+      ></tr>
+    </table>
+  </div> --> 
+

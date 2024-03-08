@@ -1,0 +1,51 @@
+<!-- <p>
+    <mat-toolbar style="background: yellow;">
+      <button [routerLink]="'/home'" mat-icon-button>
+        <mat-icon>fastfood</mat-icon>
+      </button>
+      <button class="big" [routerLink]="'/home'" mat-button>Simple Meal</button>
+      <span class="spacer"></span>
+      <button [routerLink]="'/register'" *ngIf="!isTokenPresent && (isHome || isLogin)" mat-raised-button>Sign up</button>
+      <button class="btns" (click)="login()" [routerLink]="'/login'" *ngIf="!isTokenPresent && (isHome || !isLogin)" mat-stroked-button>Log in</button>
+      <button (click)="logout()" [routerLink]="'/home'" *ngIf="isTokenPresent" mat-button>Log out</button>
+    </mat-toolbar>
+</p> -->
+
+
+<mat-toolbar class="tool-bar">
+    <div fxShow="true" fxHide.gt-sm="true">
+        <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+
+    <a mat-button routerLink="/">
+        <span>Simple Meal</span>
+        <span class="space"><mat-icon>fastfood</mat-icon></span>
+    </a>
+    <span class="spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+        <a [routerLink]="'/register'" *ngIf="!isTokenPresent && (isHome || isLogin)" mat-raised-button>Sign up</a>
+        <a class="btns" [routerLink]="'/login'" *ngIf="!isTokenPresent && (isHome || !isLogin)" mat-stroked-button>Log in</a>
+        <a (click)="logout()" [routerLink]="'/'" *ngIf="isTokenPresent" mat-button>Log out</a>
+    </div>
+
+</mat-toolbar>
+
+<mat-sidenav-container fxFlexFill>
+    <mat-sidenav #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true">
+        <div fxLayout="column">
+            <a (click)="logout()" [routerLink]="'/home'" *ngIf="isTokenPresent" mat-button>Log out</a>
+            <a [routerLink]="'/register'" *ngIf="!isTokenPresent && (isHome || isLogin)" mat-button>Sign up</a>
+            <a [routerLink]="'/login'" *ngIf="!isTokenPresent && (isHome || !isLogin)" mat-button>Log in</a>
+        </div>
+    </mat-sidenav>
+
+    <router-outlet></router-outlet>
+</mat-sidenav-container>
+      
+
+
+
+
+  
