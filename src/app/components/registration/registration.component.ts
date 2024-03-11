@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserDTO } from './dto/UserDTO';
-import { UserService } from './service/user.service';
+import { UserDTO } from '../../dtos/UserDTO';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -15,7 +15,7 @@ export class RegistrationComponent {
   registrationForm!: FormGroup;
   failedRegisterMsg: string='';
 
-  constructor(private userService: UserService,private router: Router) {
+  constructor(private authService: AuthService,private router: Router) {
     this.registrationForm = new FormGroup(
       {
       firstName: new FormControl( '', [Validators.required]),
@@ -39,7 +39,7 @@ export class RegistrationComponent {
         if (this.registrationForm.valid) {
           const formData = this.registrationForm.value;
           const user = new UserDTO(formData);
-          this.userService.registerUser(user).pipe(
+          this.authService.registerUser(user).pipe(
             tap(response => {
               //  routing to login
               this.router.navigate(['/login']);
