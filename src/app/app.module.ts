@@ -13,7 +13,6 @@ import { DatePipe } from '@angular/common';
 // material
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from  '@angular/material/sidenav';
-import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -27,6 +26,10 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
+
+
 import { MenuComponent } from './components/menu/menu.component';
 import { TokenInterceptor } from './components/shared/tokenInterceptor';
 
@@ -47,6 +50,10 @@ import { TokenInterceptor } from './components/shared/tokenInterceptor';
     AppRoutingModule,
     MatIconModule,
     MatButtonModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     MatToolbarModule,
     MatSidenavModule,
     FlexLayoutModule,

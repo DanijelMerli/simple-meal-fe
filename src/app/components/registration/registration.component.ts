@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserDTO } from './dto/UserDTO';
+import { UserService } from './service/user.service';
 import { Router } from '@angular/router';
+import { catchError, tap, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
@@ -9,12 +13,9 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent {
   registrationForm!: FormGroup;
+  failedRegisterMsg: string='';
 
-  
-  
-
-  constructor(private router: Router) {
-    
+  constructor(private userService: UserService,private router: Router) {
     this.registrationForm = new FormGroup(
       {
       firstName: new FormControl( '', [Validators.required]),
@@ -34,13 +35,42 @@ export class RegistrationComponent {
       }
     
 
-  onSubmit() {
-    if (this.registrationForm.valid) {
-      console.log(this.registrationForm.value);
-      alert("uspesno");
-      this.router.navigate(['login']);
-    } else {
-      alert("nije uspesno");
+      onSubmit() {
+        if (this.registrationForm.valid) {
+          const formData = this.registrationForm.value;
+          const user = new UserDTO(formData);
+          this.userService.registerUser(user).pipe(
+            tap(response => {
+              //  routing to login
+              this.router.navigate(['/login']);
+
+            }),
+            catchError(error =>{ if (error instanceof HttpErrorResponse) {
+              console.log(error.error.message)
+              this.failedRegisterMsg = 'Backend error:' + this.mapErrorMessage(error.error.message);
+            } else {
+
+              this.failedRegisterMsg='Frontend error:'+ error.message;
+            }
+            return throwError(() => new Error(error));
+          }
+          )).subscribe();
+        } else {
+          this.failedRegisterMsg="Something went wrong...";
+        }
+      }
+    
+
+
+    mapErrorMessage(errorMessage: string): string {
+      
+      if (errorMessage.includes('email')) {
+        return 'Email is already in use. Please choose a different email.';
+      } else if (errorMessage.includes('registration')) {
+        return 'Registration failed. Please try again later.';
+      } else {
+        return 'An unknown error occurred. Please try again later.';
+      }
     }
   }
-}
+    
