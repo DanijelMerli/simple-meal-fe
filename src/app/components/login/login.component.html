@@ -1,10 +1,10 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div>
-      <label for="username">Username:</label>
-      <input type="text" id="username" formControlName="username" placeholder="example@example.com">
-      <div *ngIf="isFieldInvalid('username')" class="error">
-        <div *ngIf="loginForm.get('username')?.errors?.['required']">Username is required</div>
-        <div *ngIf="loginForm.get('username')?.errors?.['email']">Invalid email format</div>
+      <label for="email">Username:</label>
+      <input type="text" id="email" formControlName="email" placeholder="example@example.com">
+      <div *ngIf="isFieldInvalid('email')" class="error">
+        <div *ngIf="loginForm.get('email')?.errors?.['required']">Username is required</div>
+        <div *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format</div>
       </div>
     </div>
     <div>
