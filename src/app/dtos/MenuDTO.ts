@@ -1,12 +1,3 @@
-export interface MenuDTO {
-    idFoodMenu: number;
-    typeMenu: string;
-    size: string;
-    price: number;
-    description: string;
-    isSpecial: boolean;
-}
-
 export interface WeeklyMenuDTO {
     idWeeklyMenu: number;
     dailyMenu: Array<DailyMenuDTO>;
@@ -16,23 +7,32 @@ export interface WeeklyMenuDTO {
 export interface DailyMenuDTO {
     idDailyMenu: number;
     dateMenu: string;
-    regular: MealsDTO;
-    fit: MealsDTO;
+    regular: RegularMealDTO;
+    fit: FitMealDTO;
     soup: ExtraDTO;
     dessert: ExtraDTO;
 }
 
 export interface ExtraDTO {
-    idExtra: number;
+    id: number;
     name: string;
     description: string;
     extraType: string;
     price: number;
 }
 
-export interface MealsDTO {
-    idFoodMenu: number;
+export interface RegularMealDTO {
+    id: number;
     name: string;
-    typeMenu: string;
-    size: string;
+    description: string;
+    largePrice: number;
+    smallPrice: number;
+}
+
+export interface FitMealDTO {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    shouldOrderEarly: boolean;
 }

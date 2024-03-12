@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { UserService } from '../../services/user.service';
 export class LoginComponent {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private userService: UserService) { }
+  constructor(private fb: FormBuilder, private auth: AuthService, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -29,6 +30,7 @@ export class LoginComponent {
           console.log(response.token);
           this.userService.setToken(response.token);
           alert("Login successful");
+          this.router.navigate(['menu']).then(()=>{location.reload();});
         },
         error => {
           if (error.status === 400) {
