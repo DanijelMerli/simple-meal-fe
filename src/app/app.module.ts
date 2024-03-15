@@ -23,6 +23,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MenuComponent } from './components/menu/menu.component';
 import { TokenInterceptor } from './components/shared/tokenInterceptor';
+import { MealsComponent } from './components/meals/meals.component';
+
 
 
 @NgModule({
@@ -33,6 +35,7 @@ import { TokenInterceptor } from './components/shared/tokenInterceptor';
     LoginComponent,
     RegistrationComponent,
     MenuComponent,
+    MealsComponent,
     
   ],
   imports: [
