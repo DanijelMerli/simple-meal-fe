@@ -36,3 +36,4 @@ export interface MealsDTO {
     typeMenu: string;
     size: string;
 }
+

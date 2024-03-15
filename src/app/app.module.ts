@@ -19,10 +19,13 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatInputModule } from '@angular/material/input';
+import { MatOption } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MenuComponent } from './components/menu/menu.component';
 import { TokenInterceptor } from './components/shared/tokenInterceptor';
+import { OrderComponent } from './components/order/order.component';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -33,6 +36,7 @@ import { TokenInterceptor } from './components/shared/tokenInterceptor';
     LoginComponent,
     RegistrationComponent,
     MenuComponent,
+    OrderComponent,
     
   ],
   imports: [
@@ -50,10 +54,12 @@ import { TokenInterceptor } from './components/shared/tokenInterceptor';
     FlexLayoutModule,
     BrowserAnimationsModule,
     MatInputModule,
+    MatOption,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     DatePipe, 
   ],
