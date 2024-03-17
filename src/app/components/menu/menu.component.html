@@ -16,7 +16,6 @@
           <h3 class="card-title">{{element.regular.name}}</h3>
           <p class="card-text">({{element.regular.description}})</p>
           <span class="price">Big: {{element.regular.smallPrice}} din | Small: {{element.regular.largePrice}} din</span> <br/>
-          <span *ngIf="element.regular.shouldOrderEarly" class="early">*should order a day early</span>
         </div>
       </td>
     </ng-container>
@@ -28,7 +27,7 @@
           <div *ngIf="element.fit" class="card-body">
             <h3 class="card-title">{{element.fit.name}}</h3>
             <p class="card-text">({{element.fit.description}})</p>
-            <span class="price"> {{element.fit.largePrice}} din</span> <br/>
+            <span class="price"> {{element.fit.price}} din</span> <br/>
             <span *ngIf="element.fit.shouldOrderEarly" class="early">*should order a day early</span>
           </div>
       </td>
@@ -97,7 +96,6 @@
           <li class="list-group-item"><h2>{{cardsCurrentMeals?.regular?.name}}</h2></li>
           <li class="list-group-item">{{cardsCurrentMeals?.regular?.description}}</li>
           <li class="list-group-item price">Big: {{cardsCurrentMeals?.regular?.largePrice}} din | Small: {{cardsCurrentMeals?.regular?.smallPrice}} din</li>
-          <li *ngIf="cardsCurrentMeals?.regular?.shouldOrderEarly" class="list-group-item early">*should order a day early</li>
         </ul>
         <ul *ngIf="!cardsCurrentMeals?.regular" class="list-group list-group-flush">
           <li class="list-group-item"><h2>None for today</h2></li>
@@ -111,8 +109,8 @@
         <ul *ngIf="cardsCurrentMeals?.fit" class="list-group list-group-flush">
           <li class="list-group-item"><h2>{{cardsCurrentMeals?.fit?.name}}</h2></li>
           <li class="list-group-item">{{cardsCurrentMeals?.fit?.description}}</li>
-          <li class="list-group-item price">{{cardsCurrentMeals?.fit?.largePrice}} din</li>
-          <li *ngIf="cardsCurrentMeals?.regular?.shouldOrderEarly" class="list-group-item early">*should order a day early</li>
+          <li class="list-group-item price">{{cardsCurrentMeals?.fit?.price}} din</li>
+          <li *ngIf="cardsCurrentMeals?.fit?.shouldOrderEarly" class="list-group-item early">*should order a day early</li>
         </ul>
         <ul *ngIf="!cardsCurrentMeals?.fit" class="list-group list-group-flush">
           <li class="list-group-item"><h2>None for today</h2></li>

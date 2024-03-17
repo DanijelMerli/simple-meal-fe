@@ -153,7 +153,7 @@ export class MenuComponent implements OnInit{
         monthStr = '0' + month;
       }
   
-      return dayStr + '.' + monthStr + '.' + year;
+      return dayStr + '.' + monthStr + '.' + year + '.';
   }
 
   selectChange(selectedValue: any) {
