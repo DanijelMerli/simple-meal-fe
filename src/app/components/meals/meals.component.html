@@ -9,7 +9,7 @@
         <option class="option" *ngFor="let option of mealTypes;let i = 'index';" [value]="option">{{option}}</option>
       </select>
     </form>
-    <button>Add new</button>
+    <button type="" (click)="add()">Add new</button>
 </div>
 
 <div *ngIf="mealType=='Regular'" class="table-container">

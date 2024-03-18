@@ -24,6 +24,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MenuComponent } from './components/menu/menu.component';
 import { TokenInterceptor } from './components/shared/tokenInterceptor';
 import { MealsComponent } from './components/meals/meals.component';
+import { MealsFormComponent } from './components/meals-form/meals-form.component';
+import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
 
 
 
@@ -36,6 +38,8 @@ import { MealsComponent } from './components/meals/meals.component';
     RegistrationComponent,
     MenuComponent,
     MealsComponent,
+    MealsFormComponent,
+    EditMealFormComponent,
     
   ],
   imports: [
