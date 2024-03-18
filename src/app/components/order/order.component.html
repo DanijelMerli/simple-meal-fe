@@ -40,8 +40,12 @@
       <div  class="center">
         {{submitMsg}}
         </div>
+       
 
-        
+      <div *ngIf="dailyMenu && correctTime()" class="card-container">
+       
+      <div *ngIf="dailyMenu.regular" class="card" >
+              
       
         <h1>{{dailyMenu.regular.name}}</h1>
             Description: <br>
