@@ -9,7 +9,7 @@
           <option class="option" *ngFor="let option of mealTypes;let i = 'index';" [value]="option">{{option}}</option>
         </select>
       </form>
-  </div>
+
 <div *ngIf="mealType=='Regular'">
 <form [formGroup]="mealsFormRegular">
     <div>
@@ -60,4 +60,5 @@
     <button type="submit" id="submitButton" (click)="submitFormExtra()" (keydown.enter)="submitFormExtra()" [disabled]="mealsFormExtra.invalid">Create extras meal</button>
     </div>
   </form>
+</div>
 </div>

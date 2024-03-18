@@ -75,7 +75,6 @@ export class EditMealFormComponent implements OnInit{
     this.service.editRegularMeal(this.data.element.id, ret).subscribe(
       response => {
         console.log('successful');
-        alert("Successful");
       },
       error => {
 
@@ -99,7 +98,6 @@ export class EditMealFormComponent implements OnInit{
     this.service.editFitMeal(this.data.element.id, ret).subscribe(
       response => {
         console.log('successful');
-        alert("Successful");
       },
       error => {
 
@@ -123,7 +121,6 @@ export class EditMealFormComponent implements OnInit{
     this.service.editExtra(this.data.element.id,ret).subscribe(
       response => {
         console.log('successful');
-        alert("Successful");
       },
       error => {
           console.error('An error occurred:', error);

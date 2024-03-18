@@ -92,7 +92,6 @@ export class MealsFormComponent implements OnInit{
     this.service.addRegularMeal(ret).subscribe(
       response => {
         console.log('successful');
-        alert("Successful");
       },
       error => {
 
@@ -114,7 +113,6 @@ export class MealsFormComponent implements OnInit{
     this.service.addFitMeal(ret).subscribe(
       response => {
         console.log('successful');
-        alert("Successful");
       },
       error => {
 
@@ -136,7 +134,6 @@ export class MealsFormComponent implements OnInit{
     this.service.addExtraMeal(ret).subscribe(
       response => {
         console.log('successful');
-        alert("Successful");
       },
       error => {
           console.error('An error occurred:', error);
