@@ -1,0 +1,64 @@
+<div class="card-container">
+  <h1>Choose whitch meals to add:</h1>
+  <form
+        method="POST"
+        [formGroup]="selectForm" 
+      >
+        <label>Choose meal type:</label>
+        <select #issuer class="element" name="mealsType" formControlName="mealsType">
+          <option class="option" *ngFor="let option of mealTypes;let i = 'index';" [value]="option">{{option}}</option>
+        </select>
+      </form>
+
+<div *ngIf="mealType=='Regular'">
+<form [formGroup]="mealsFormRegular">
+    <div>
+    <label for="name">Choose name:</label>
+    <input type="text" id="name" name="name" formControlName="name"> <br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" formControlName="description"></textarea><br>
+    <label for="smallPrice">Small price:</label>
+    <input type="number" id="smallPrice" name="smallPrice" formControlName="smallPrice"><br>
+    <label for="largePrice">Large price:</label>
+    <input type="number" id="largePrice" name="largePrice" formControlName="largePrice"> <br><br>
+    <button type="submit" id="submitButton" (click)="submitFormRegular()" (keydown.enter)="submitFormRegular()" [disabled]="mealsFormRegular.invalid">Create regular meal</button>
+    </div>
+  </form>
+</div>
+<div *ngIf="mealType=='Fit'">
+  <form [formGroup]="mealsFormFit">
+    <div>
+    <label for="name">Choose name:</label>
+    <input type="text" id="name" name="name" formControlName="name"> <br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" formControlName="description"></textarea><br>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" formControlName="price"><br>
+    <label for="shouldOrderEarly">Do you need to order early:</label>
+    <input type="radio" id="shouldOrderEarly" name="shouldOrderEarly" formControlName="shouldOrderEarly" value="true">Yes
+    <input type="radio" id="shouldOrderEarly" name="shouldOrderEarly" formControlName="shouldOrderEarly" value="false">No<br><br>
+    <button type="submit" id="submitButton" (click)="submitFormFit()" (keydown.enter)="submitFormFit()" [disabled]="mealsFormFit.invalid">Create fit meal</button>
+    </div>
+  </form>
+</div>
+<div *ngIf="mealType=='Extra'">
+  <form [formGroup]="mealsFormExtra">
+    <div>
+    <label for="name">Choose name:</label>
+    <input type="text" id="name" name="name" formControlName="name"> <br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" formControlName="description"></textarea><br>
+      <label for="extraType">Type of extra:</label>
+      <div class="radio-buttons">
+        <label for="extraType">Soup</label>
+        <input type="radio" id="soup" name="extraType" formControlName="extraType" value="SOUP"><br>
+       <label for="extraType">Dessert</label>
+        <input type="radio" id="dessert" name="extraType" formControlName="extraType" value="DESSERT">  
+      </div>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" formControlName="price"><br><br>
+    <button type="submit" id="submitButton" (click)="submitFormExtra()" (keydown.enter)="submitFormExtra()" [disabled]="mealsFormExtra.invalid">Create extras meal</button>
+    </div>
+  </form>
+</div>
+</div>

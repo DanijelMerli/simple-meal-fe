@@ -1,0 +1,49 @@
+<div class="card-container">
+ <div *ngIf="mealType=='Regular'">
+    <form [formGroup]="mealsFormRegular">
+        <div>
+        <label for="name">Choose name:</label>
+        <input type="text" id="name" name="name" formControlName="name"> <br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" formControlName="description"></textarea><br>
+        <label for="smallPrice">Small price:</label>
+        <input type="number" id="smallPrice" name="smallPrice" formControlName="smallPrice"><br>
+        <label for="largePrice">Large price:</label>
+        <input type="number" id="largePrice" name="largePrice" formControlName="largePrice"> <br><br>
+        <button type="submit" id="submitButton" (click)="editFormRegular()" (keydown.enter)="editFormRegular()" [disabled]="mealsFormRegular.invalid">Edit regular meal</button>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="mealType=='Fit'">
+      <form [formGroup]="mealsFormFit">
+        <div>
+        <label for="name">Choose name:</label>
+        <input type="text" id="name" name="name" formControlName="name"> <br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" formControlName="description"></textarea><br>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" formControlName="price"><br>
+        <label for="shouldOrderEarly">Do you need to order early:</label>
+        <input type="radio" id="shouldOrderEarly" name="shouldOrderEarly" formControlName="shouldOrderEarly" value="true">Yes
+        <input type="radio" id="shouldOrderEarly" name="shouldOrderEarly" formControlName="shouldOrderEarly" value="false">No<br><br>
+        <button type="submit" id="submitButton" (click)="editFormFit()" (keydown.enter)="editFormFit()" [disabled]="mealsFormFit.invalid">Edit fit meal</button>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="mealType=='Extra'">
+      <form [formGroup]="mealsFormExtra">
+        <div>
+        <label for="name">Choose name:</label>
+        <input type="text" id="name" name="name" formControlName="name"> <br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" formControlName="description"></textarea><br>
+        <label for="extraType">Type of extra:</label>
+        <input type="radio" id="extraType" name="extraType" formControlName="extraType" value="SOUP"> Soup
+        <input type="radio" id="extraType" name="extraType" formControlName="extraType" value="DESSERT"> Dessert 
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" formControlName="price"><br><br>
+        <button type="submit" id="submitButton" (click)="editFormExtra()" (keydown.enter)="editFormExtra()" [disabled]="mealsFormExtra.invalid">Edit extras meal</button>
+        </div>
+      </form>
+    </div> 
+  </div>

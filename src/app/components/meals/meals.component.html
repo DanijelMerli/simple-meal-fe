@@ -1,0 +1,128 @@
+<div class="card-container">
+<h1>Meals:</h1>
+<form
+      method="POST"
+      [formGroup]="selectForm" 
+    >
+      <label>Choose meal type:</label>
+      <select #issuer class="element" name="mealsType" formControlName="mealsType">
+        <option class="option" *ngFor="let option of mealTypes;let i = 'index';" [value]="option">{{option}}</option>
+      </select>
+    </form>
+    <button type="" (click)="add()">Add new</button>
+</div>
+
+<div *ngIf="mealType=='Regular'" class="table-container">
+    <table mat-table [dataSource]="dataSourceRegular" class="mat-table" matSort>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element"> {{element.name}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element"> {{element.description}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="smallPrice">
+            <th mat-header-cell *matHeaderCellDef>Small price</th>
+            <td mat-cell *matCellDef="let element"> {{element.smallPrice}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="largePrice">
+            <th mat-header-cell *matHeaderCellDef>Large price</th>
+            <td mat-cell *matCellDef="let element"> {{element.largePrice}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button class="whiteBtn" (click)="editRegular(element)">
+                <mat-icon>edit</mat-icon></button>
+              <button class="whiteBtn" (click)="deleteRegular(element)"><mat-icon>delete</mat-icon>
+                </button>
+            </td>
+          </ng-container>
+
+          <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  </div>
+
+  <div *ngIf="mealType=='Fit'" class="table-container">
+    <table mat-table [dataSource]="dataSourceFit" class="mat-table" matSort>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element"> {{element.name}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element"> {{element.description}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let element"> {{element.price}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="shouldOrderEarly">
+            <th mat-header-cell *matHeaderCellDef>Should order early</th>
+            <td mat-cell *matCellDef="let element"> 
+                <span *ngIf="element.shouldOrderEarly">Yes.</span>
+                <span *ngIf="!element.shouldOrderEarly">No.</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button class="whiteBtn" (click)="editFit(element)">
+                <mat-icon>edit</mat-icon></button>
+              <button class="whiteBtn" (click)="deleteFit(element)"><mat-icon>delete</mat-icon>
+                </button>
+            </td>
+          </ng-container>
+          <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  </div>
+
+  <div *ngIf="mealType=='Extra'" class="table-container">
+    <table mat-table [dataSource]="dataSourceExtra" class="mat-table" matSort>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element"> {{element.name}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element"> {{element.description}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let element"> {{element.price}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="extraType">
+            <th mat-header-cell *matHeaderCellDef>Extra type</th>
+            <td mat-cell *matCellDef="let element">{{element.extraType}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button class="whiteBtn" (click)="editExtra(element)">
+                <mat-icon>edit</mat-icon></button>
+              <button class="whiteBtn" (click)="deleteExtra(element)"><mat-icon>delete</mat-icon>
+                </button>
+            </td>
+          </ng-container>
+          <tr class="header" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  </div>
