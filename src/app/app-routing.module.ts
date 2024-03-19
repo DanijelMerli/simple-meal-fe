@@ -18,7 +18,7 @@ const routes: Routes = [
   {path: "menu", component: MenuComponent},
   {path: 'order', component: OrderComponent },
   {path: 'order/:day', component: OrderComponent },
-  {path: '', redirectTo: '/order/today', pathMatch: 'full' }
+  {path: '', redirectTo: '/order/today', pathMatch: 'full'},
   {path: "meals", component: MealsComponent},
   {path: "add-meals", component: MealsFormComponent},
   {path: "edit-meals", component: EditMealFormComponent}
