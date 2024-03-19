@@ -1,0 +1,73 @@
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* This ensures two items per row */
+    margin: 1em; 
+    padding: 2em;
+  }
+  
+  .card {
+    flex: 0 0 calc(50% - 60px); /* Two cards per row with some spacing */
+    margin: 1em;
+    padding: 1em;
+    text-align: center;
+  }
+
+  .error {
+    color: red;
+  }
+
+  .table-div {
+    text-align: center;
+  }
+
+  .center {
+    margin: 0 auto;
+    text-align: center;
+  }
+  .table-div table {
+    background-color: white;
+    padding: 1em;
+    width: 40%;
+    margin: 0 auto;
+  }
+
+  h1 {
+    color:rgb(250, 99, 45);
+    font-size: 3em;
+    margin-bottom: 1em;
+  }
+
+  button, .link-btn {
+    padding: 10px 20px;
+    background-color: #e6f918d7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover, .link-btn:hover {
+    background-color: #e4f806f6;
+  }
+  
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  .mi-button {
+    background-color: white;
+  }
+  
+  .link-btn {
+    width: 14em;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    margin-left: 2em;
+  }
+
+  .link-btn-text {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+  }
