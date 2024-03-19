@@ -13,7 +13,7 @@ import { NotFoundPageComponent } from './components/pages/not-found-page/not-fou
 import { AccessDeniedPageComponent } from './components/pages/access-denied-page/access-denied-page.component';
 
 const routes: Routes = [
-  {path: "home", component: HomePageComponent,},
+  {path: "home", component: HomePageComponent},
   {path: "", component: HomePageComponent},
   {path: "login", component: LoginComponent},
   {path: "register", component: RegistrationComponent},
