@@ -26,6 +26,8 @@ import { TokenInterceptor } from './components/shared/tokenInterceptor';
 import { MealsComponent } from './components/meals/meals.component';
 import { MealsFormComponent } from './components/meals-form/meals-form.component';
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
+import { AccessDeniedPageComponent } from './components/pages/access-denied-page/access-denied-page.component';
+import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 
 
 
@@ -40,6 +42,8 @@ import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-for
     MealsComponent,
     MealsFormComponent,
     EditMealFormComponent,
+    AccessDeniedPageComponent,
+    NotFoundPageComponent,
     
   ],
   imports: [

@@ -18,4 +18,12 @@ export class UserService {
   clearToken(){
     localStorage.clear();
   }
+
+  isLoggedIn() {
+    return !!this.getToken(); 
+  }
+
+  logOut() {
+    this.clearToken();
+  }
 }
