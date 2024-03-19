@@ -1,0 +1,153 @@
+      <div *ngIf="isToday" class="link-btn">
+        <a routerLink="/order/tomorrow" class="link-btn-text">Order for Tomorrow</a>
+      </div>
+      <div *ngIf="!isToday" class="link-btn">
+        <a routerLink="/order/today" class="link-btn-text">Order for Today</a>
+      </div>
+      <div *ngIf=" !correctTime()">
+      No more orders for today! You can order for tomorrow!
+      </div>
+      <div *ngIf="orderDisplayItems && orderDisplayItems.length > 0"  class="table-div">
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of orderDisplayItems">
+              <td>{{item.id}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.quantity}}</td>
+              <td>{{item.totalPrice}}</td>
+              <td>
+                <button mat-icon-button color="warn"  (click)="deleteRow(item)" class="mi-button">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table> <br>
+        <button mat-button type="submit" (click)="submitOrder()">Submit Order</button>
+      </div>
+
+    
+
+      <div  class="center">
+        {{submitMsg}}
+        </div>
+       
+
+      <div *ngIf="dailyMenu && correctTime()" class="card-container">
+       
+      <div *ngIf="dailyMenu.regular" class="card" >
+              
+      
+        <h1>{{dailyMenu.regular.name}}</h1>
+            Description: <br>
+              <p>{{dailyMenu.regular.description}}</p>
+            <form [formGroup]="arrayForms[0]" (ngSubmit)="saveOrderItem(dailyMenu.regular.id,0,
+            dailyMenu.regular.name,
+            dailyMenu.regular.largePrice,dailyMenu.regular.smallPrice,0)">
+
+              <mat-label>Size:</mat-label> <br>
+              <select id="mealType" formControlName="mealType" (change)="updatePrice()">
+                  <option value="LARGE">Large</option>
+                  <option value="SMALL">Small</option>
+                </select> <br>
+
+                <mat-label>Quantity:</mat-label> <br>
+                <input type="number"  name="quantity" formControlName="quantity">
+                <div *ngIf="arrayForms[0].get('quantity')?.errors && arrayForms[0].get('quantity')?.touched" class="error">
+                  <div *ngIf="arrayForms[0].get('quantity')?.errors?.['required']">Quantity is required.</div>
+                  <div *ngIf="arrayForms[0].get('quantity')?.errors?.['min']">Quantity must be 1 or more.</div>
+              </div>
+                <p>Price: {{price }}</p>
+                
+                <button mat-button type="submit" [disabled]="arrayForms[0].invalid">Add</button>
+
+            </form>
+          </div>
+
+          <div *ngIf="dailyMenu.fit" class="card" >
+            <h1>{{dailyMenu.fit.name}}</h1>
+            <p>{{dailyMenu.fit.description}}</p>
+              <form [formGroup]="arrayForms[1]" (ngSubmit)="saveOrderItem(dailyMenu.fit.id,1,
+              dailyMenu.fit.name,
+              dailyMenu.fit.price)">
+
+          <mat-label>Quantity:</mat-label> <br>
+            <input type="number"  name="quantity" formControlName="quantity">
+            <div *ngIf="arrayForms[1].get('quantity')?.errors && arrayForms[1].get('quantity')?.touched" class="error">
+              <div *ngIf="arrayForms[1].get('quantity')?.errors?.['required']">Quantity is required.</div>
+              <div *ngIf="arrayForms[1].get('quantity')?.errors?.['min']">Quantity must be  1 or more.</div>
+          </div>
+                
+                  <p>Price: {{dailyMenu.fit.price}}</p>
+                  
+                  <div *ngIf="!dailyMenu.fit.shouldOrderEarly || !isToday">
+                  <button mat-button type="submit" [disabled]="arrayForms[1].invalid">Add</button>
+                </div>
+
+                  <div *ngIf="dailyMenu.fit.shouldOrderEarly && isToday" class="error">
+                  Can't order this today!
+                  </div>
+              </form>
+            </div>
+
+            <div *ngIf="dailyMenu.soup"class="card" >
+              <h1>{{dailyMenu.soup.name}}</h1>
+              <p>{{dailyMenu.soup.description}}</p>
+                <form [formGroup]="arrayForms[2]" (ngSubmit)="saveOrderItem(dailyMenu.soup.id,2,
+                dailyMenu.soup.name,
+                dailyMenu.soup.price)">
+
+            <mat-label>Quantity:</mat-label> <br>
+            <input type="number"  name="quantity" formControlName="quantity">
+            <div *ngIf="arrayForms[2].get('quantity')?.errors && arrayForms[2].get('quantity')?.touched" class="error">
+              <div *ngIf="arrayForms[2].get('quantity')?.errors?.['required']">Quantity is required.</div>
+              <div *ngIf="arrayForms[2].get('quantity')?.errors?.['min']">Quantity must be  1 or more.</div>
+            </div>
+                  
+                  
+                    <p>Price: {{dailyMenu.soup.price}}</p>
+                    
+                    <button mat-button type="submit" [disabled]="arrayForms[2].invalid" >Add</button>
+          
+                </form>
+              </div>
+
+              <div *ngIf="dailyMenu.dessert"class="card" >
+                <h1>{{dailyMenu.dessert.name}}</h1>
+                <p>{{dailyMenu.dessert.description}}</p>
+                  <form [formGroup]="arrayForms[3]" (ngSubmit)="saveOrderItem(dailyMenu.dessert.id,3,
+                  dailyMenu.dessert.name,
+                  dailyMenu.dessert.price)">
+
+                  <mat-label>Quantity:</mat-label> <br>
+                  <input type="number"  name="quantity" formControlName="quantity">
+                  <div *ngIf="arrayForms[3].get('quantity')?.errors && arrayForms[3].get('quantity')?.touched" class="error">
+                    <div *ngIf="arrayForms[3].get('quantity')?.errors?.['required']">Quantity is required.</div>
+                    <div *ngIf="arrayForms[3].get('quantity')?.errors?.['min']">Quantity must be  1 or more.</div>
+                </div>
+                    
+                      <p>Price: {{dailyMenu.dessert.price}}</p>
+                      
+                      <button mat-button="submit" [disabled]="arrayForms[3].invalid" >Add</button>
+            
+                  </form>
+                </div>
+            
+      </div>
+      
+     
+
+
+     
+
+
+

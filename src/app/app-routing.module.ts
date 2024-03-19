@@ -4,6 +4,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { LoginComponent } from './components/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { OrderComponent } from './components/order/order.component';
 import { MealsComponent } from './components/meals/meals.component';
 import { MealsFormComponent } from './components/meals-form/meals-form.component';
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
@@ -21,7 +22,10 @@ const routes: Routes = [
   {path: "add-meals", component: MealsFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
   {path: "edit-meals", component: EditMealFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
   {path: 'access-denied', component: AccessDeniedPageComponent },
-  {path: '**', component: NotFoundPageComponent}
+  {path: 'order', component: OrderComponent, canActivate: [AuthGuard]},
+  {path: 'order/:day', component: OrderComponent, canActivate: [AuthGuard]},
+  {path: '', redirectTo: '/order/today', pathMatch: 'full'},
+  {path: '**', component: NotFoundPageComponent},
 ];
 
 @NgModule({
