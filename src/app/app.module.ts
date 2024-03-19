@@ -26,6 +26,10 @@ import { MenuComponent } from './components/menu/menu.component';
 import { TokenInterceptor } from './components/shared/tokenInterceptor';
 import { OrderComponent } from './components/order/order.component';
 import { MatSortModule } from '@angular/material/sort';
+import { MealsComponent } from './components/meals/meals.component';
+import { MealsFormComponent } from './components/meals-form/meals-form.component';
+import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
+
 
 
 @NgModule({
@@ -37,6 +41,9 @@ import { MatSortModule } from '@angular/material/sort';
     RegistrationComponent,
     MenuComponent,
     OrderComponent,
+    MealsComponent,
+    MealsFormComponent,
+    EditMealFormComponent,
     
   ],
   imports: [

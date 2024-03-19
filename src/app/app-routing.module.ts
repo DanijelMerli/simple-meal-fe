@@ -6,6 +6,10 @@ import { LoginComponent } from './components/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { OrderComponent } from './components/order/order.component';
 
+import { MealsComponent } from './components/meals/meals.component';
+import { MealsFormComponent } from './components/meals-form/meals-form.component';
+import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
+
 const routes: Routes = [
   {path: "home", component: HomePageComponent},
   {path: "", component: HomePageComponent},
@@ -15,6 +19,9 @@ const routes: Routes = [
   {path: 'order', component: OrderComponent },
   {path: 'order/:day', component: OrderComponent },
   {path: '', redirectTo: '/order/today', pathMatch: 'full' }
+  {path: "meals", component: MealsComponent},
+  {path: "add-meals", component: MealsFormComponent},
+  {path: "edit-meals", component: EditMealFormComponent}
 ];
 
 @NgModule({

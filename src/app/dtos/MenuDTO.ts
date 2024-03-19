@@ -21,6 +21,13 @@ export interface ExtraDTO {
     price: number;
 }
 
+export interface CreateExtraDTO {
+    name: string;
+    description: string;
+    extraType: string;
+    price: number;
+}
+
 export interface RegularMealDTO {
     id: number;
     name: string;
@@ -29,8 +36,22 @@ export interface RegularMealDTO {
     smallPrice: number;
 }
 
+export interface CreateRegularMealDTO {
+    name: string;
+    description: string;
+    largePrice: number;
+    smallPrice: number;
+}
+
 export interface FitMealDTO {
     id: number;
+    name: string;
+    description: string;
+    price: number;
+    shouldOrderEarly: boolean;
+}
+
+export interface CreateFitMealDTO {
     name: string;
     description: string;
     price: number;
