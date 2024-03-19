@@ -17,11 +17,11 @@ const routes: Routes = [
   {path: "login", component: LoginComponent},
   {path: "register", component: RegistrationComponent},
   {path: "menu", component: MenuComponent, canActivate: [AuthGuard]},
-  {path: "meals", component: MealsComponent, canActivate: [AuthGuard]},
-  {path: "add-meals", component: MealsFormComponent, canActivate: [AuthGuard]},
-  {path: "edit-meals", component: EditMealFormComponent, canActivate: [AuthGuard]},
-  {path: '**', component: NotFoundPageComponent, canActivate: [AuthGuard] },
-  {path: 'access-denied', component: AccessDeniedPageComponent }
+  {path: "meals", component: MealsComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
+  {path: "add-meals", component: MealsFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
+  {path: "edit-meals", component: EditMealFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
+  {path: 'access-denied', component: AccessDeniedPageComponent },
+  {path: '**', component: NotFoundPageComponent}
 ];
 
 @NgModule({

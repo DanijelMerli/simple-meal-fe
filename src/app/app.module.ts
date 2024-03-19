@@ -28,7 +28,8 @@ import { MealsFormComponent } from './components/meals-form/meals-form.component
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
 import { AccessDeniedPageComponent } from './components/pages/access-denied-page/access-denied-page.component';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
-
+import { InvalidTokenInterceptor } from './components/shared/invalidTokenInterceptor';
+import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 
 
 @NgModule({
@@ -66,12 +67,22 @@ import { NotFoundPageComponent } from './components/pages/not-found-page/not-fou
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
-    DatePipe, 
+    DatePipe,
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useValue: {
+          tokenGetter: () => {
+            return localStorage.getItem('token');
+          }
+        }
+      }
+    })
   ],
   providers: [
     provideAnimationsAsync(),
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-
+    { provide: HTTP_INTERCEPTORS, useClass: InvalidTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
