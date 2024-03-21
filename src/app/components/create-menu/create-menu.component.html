@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="left">
+        <form
+        method="POST"
+        [formGroup]="selectForm" 
+        >
+            <label style="margin-right: 10px;">Choose meal type:</label>
+            <select #issuer class="element" name="mealType" formControlName="mealType">
+                <option class="option" *ngFor="let option of mealTypes;let i = 'index';" [value]="option">{{option}}</option>
+            </select>
+        </form>
+        <div *ngIf="selectedMealType=='Regular'">
+            <div *ngFor="let regular of regulars; let i = 'index';">
+                <div draggable="true" class="card">
+                    <!-- <div class="card-header">
+                      Regular Meal:
+                    </div> -->
+                    <ul *ngIf="regulars.length != 0" class="list-group list-group-flush">
+                      <li class="list-group-item"><h2>{{regular?.name}}</h2></li>
+                      <li class="list-group-item">{{regular?.description}}</li>
+                      <li class="list-group-item price">Big: {{regular?.largePrice}} din | Small: {{regular?.smallPrice}} din</li>
+                    </ul>
+                    <ul *ngIf="regulars.length == 0" class="list-group list-group-flush">
+                      <li class="list-group-item"><h2>No regular meals</h2></li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+        
+        <div *ngIf="selectedMealType=='Fit'">
+            <div *ngFor="let fit of fits; let i = 'index';">
+                <div class="card">
+                    <!-- <div class="card-header">
+                    Fit Meal:
+                    </div> -->
+                    <ul *ngIf="fits.length != 0" class="list-group list-group-flush">
+                        <li class="list-group-item"><h2>{{fit?.name}}</h2></li>
+                        <li class="list-group-item">{{fit?.description}}</li>
+                        <li class="list-group-item price">{{fit?.price}} din</li>
+                        <li *ngIf="fit?.shouldOrderEarly" class="list-group-item early">*should order a day early</li>
+                    </ul>
+                    <ul *ngIf="fits.length == 0" class="list-group list-group-flush">
+                        <li class="list-group-item"><h2>No fit meals</h2></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+        <div *ngIf="selectedMealType=='Soup'">
+            <div *ngFor="let soup of soups; let i = 'index';">
+                <div class="card">
+                    <!-- <div class="card-header">
+                    <span>Soup:</span> <br/>
+                    <span class="early">*should order a day early</span>
+                    </div> -->
+                    <ul *ngIf="soups.length != 0" class="list-group list-group-flush">
+                        <li class="list-group-item"><h2>{{soup?.name}}</h2></li>
+                        <li class="list-group-item">{{soup?.description}}</li>
+                        <li class="list-group-item price">{{soup?.price}} din</li>
+                        <li class="list-group-item early">*should order a day early</li>
+                    </ul>
+                    <ul *ngIf="soups.length == 0" class="list-group list-group-flush">
+                        <li class="list-group-item"><h2>No soups</h2></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+        <div *ngIf="selectedMealType=='Dessert'">
+            <div *ngFor="let dessert of desserts; let i = 'index';">
+                <div class="card">
+                    <!-- <div class="card-header">
+                    <span>Dessert:</span> <br/>
+                    <span class="early">*should order a day early</span>
+                    </div> -->
+                    <ul *ngIf="desserts.length != 0" class="list-group list-group-flush">
+                        <li class="list-group-item"><h2>{{dessert?.name}}</h2></li>
+                        <li class="list-group-item">{{dessert?.description}}</li>
+                        <li class="list-group-item price">{{dessert?.price}} din</li>
+                        <li class="list-group-item early">*should order a day early</li>
+                    </ul>
+                    <ul *ngIf="desserts.length == 0" class="list-group list-group-flush">
+                        <li class="list-group-item"><h2>No desserts</h2></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <h2>Right Side</h2>
+        <p>This is the content for the right side of the page. It can also contain any information you want.</p>
+    </div>
+</div>

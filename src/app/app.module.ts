@@ -29,6 +29,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MealsComponent } from './components/meals/meals.component';
 import { MealsFormComponent } from './components/meals-form/meals-form.component';
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
+import { CreateMenuComponent } from './components/create-menu/create-menu.component';
 
 
 
@@ -44,6 +45,7 @@ import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-for
     MealsComponent,
     MealsFormComponent,
     EditMealFormComponent,
+    CreateMenuComponent,
     
   ],
   imports: [
