@@ -30,7 +30,7 @@ import { MealsComponent } from './components/meals/meals.component';
 import { MealsFormComponent } from './components/meals-form/meals-form.component';
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
 import { CreateMenuComponent } from './components/create-menu/create-menu.component';
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -71,6 +71,7 @@ import { CreateMenuComponent } from './components/create-menu/create-menu.compon
     MatSortModule,
     MatPaginatorModule,
     DatePipe, 
+    DragDropModule
   ],
   providers: [
     provideAnimationsAsync(),
