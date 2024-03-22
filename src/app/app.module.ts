@@ -29,7 +29,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MealsComponent } from './components/meals/meals.component';
 import { MealsFormComponent } from './components/meals-form/meals-form.component';
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
-
+import { AccessDeniedPageComponent } from './components/pages/access-denied-page/access-denied-page.component';
+import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
+import { InvalidTokenInterceptor } from './components/shared/invalidTokenInterceptor';
+import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 
 
 @NgModule({
@@ -44,6 +47,8 @@ import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-for
     MealsComponent,
     MealsFormComponent,
     EditMealFormComponent,
+    AccessDeniedPageComponent,
+    NotFoundPageComponent,
     
   ],
   imports: [
@@ -68,12 +73,22 @@ import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-for
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    DatePipe, 
+    DatePipe,
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useValue: {
+          tokenGetter: () => {
+            return localStorage.getItem('token');
+          }
+        }
+      }
+    })
   ],
   providers: [
     provideAnimationsAsync(),
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-
+    { provide: HTTP_INTERCEPTORS, useClass: InvalidTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
