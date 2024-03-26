@@ -36,7 +36,7 @@ export class LoginComponent {
               duration: 2000,
             });
           } else if(error.status === 404) {
-            this.snackBar.open('User with email not found', undefined, {
+            this.snackBar.open('User with this email not found', undefined, {
               duration: 2000,
             });
           }
