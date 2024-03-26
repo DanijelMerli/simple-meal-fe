@@ -31,6 +31,9 @@ import { MealsFormComponent } from './components/meals-form/meals-form.component
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
 import { CreateMenuComponent } from './components/create-menu/create-menu.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatTooltip } from '@angular/material/tooltip';
+import { CreateWeeklyMenuComponent } from './components/create-weekly-menu/create-weekly-menu.component';
 
 
 @NgModule({
@@ -46,6 +49,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MealsFormComponent,
     EditMealFormComponent,
     CreateMenuComponent,
+    CreateWeeklyMenuComponent,
     
   ],
   imports: [
@@ -71,7 +75,9 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatSortModule,
     MatPaginatorModule,
     DatePipe, 
-    DragDropModule
+    DragDropModule,
+    MatDatepickerModule,
+    MatTooltip
   ],
   providers: [
     provideAnimationsAsync(),

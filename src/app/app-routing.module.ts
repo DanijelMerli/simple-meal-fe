@@ -10,6 +10,7 @@ import { MealsComponent } from './components/meals/meals.component';
 import { MealsFormComponent } from './components/meals-form/meals-form.component';
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
 import { CreateMenuComponent } from './components/create-menu/create-menu.component';
+import { CreateWeeklyMenuComponent } from './components/create-weekly-menu/create-weekly-menu.component';
 
 const routes: Routes = [
   {path: "home", component: HomePageComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: "meals", component: MealsComponent},
   {path: "add-meals", component: MealsFormComponent},
   {path: "edit-meals", component: EditMealFormComponent},
-  {path: "create-menu", component: CreateMenuComponent}
+  {path: "create-menu", component: CreateMenuComponent},
+  {path: "create-weekly-menu", component: CreateWeeklyMenuComponent},
 ];
 
 @NgModule({
