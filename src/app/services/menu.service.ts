@@ -23,6 +23,10 @@ export class MenuService {
     return this.http.post(`${environment.apiUrl}meals/save-weekly-menu`, menu);
   }
 
+  updateWeeklyMenu(menu: WeeklyMenuAdminDTO): Observable<any> {
+    return this.http.put(`${environment.apiUrl}meals/update-weekly-menu`, menu);
+  }
+
   uploadFile(formData: FormData, id: number): Observable<any> {
     return this.http.post(`${environment.apiUrl}meals/uploadFile/${id}`, formData);
   }

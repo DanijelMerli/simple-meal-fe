@@ -49,13 +49,15 @@ export class CreateWeeklyMenuComponent implements OnInit {
   selectedFile!: File;
 
   currentMenu!: DailyMenuDTO[];
+  currentMenuId!: number;
+
+  action!: string;
 
   constructor(private mealService : MealService, private route: ActivatedRoute, private menuService: MenuService) {
-    let action;
     let currentMenu;
     this.route.queryParams.subscribe(params => {
       let week = params['week'];
-      action = params['action'];
+      this.action = params['action'];
       // if (action == "create") {
       if (week == "this") {
         this.getDatesForRestOfWeek();
@@ -72,7 +74,7 @@ export class CreateWeeklyMenuComponent implements OnInit {
       });
     });
 
-    if (action == 'edit') {
+    if (this.action == 'edit') {
       currentMenu = this.getMenus().then(menuArray => {
           this.populateChosenMeals(menuArray);
       });
@@ -139,21 +141,17 @@ export class CreateWeeklyMenuComponent implements OnInit {
     }
   }
 
-  async saveMenu() {
-    this.uploadFile();
-    let pictureBytes;
-    await this.convertFileToByteArray(this.selectedFile).then(byteArray => {
-      pictureBytes = byteArray;
-    });
+  saveMenu() {
     let dailyMenus: DailyMenuAdminDTO[] = [];
     for (let i = 0; i < this.days.length; i++) {
       let day = this.days[i];
       let date = this.dates[i];
       let meals = this.chosenMeals[day];
-      let regular: RegularMealDTO = meals['regular']?.[0];
-      let fit: FitMealDTO = meals['fit']?.[0];
-      let soup: ExtraDTO = meals['soup']?.[0];
-      let dessert: ExtraDTO = meals['dessert']?.[0];
+      // console.log(meals);
+      let regular: RegularMealDTO = meals['regular']?.[meals['regular']?.length - 1];
+      let fit: FitMealDTO = meals['fit']?.[meals['fit']?.length - 1];
+      let soup: ExtraDTO = meals['soup']?.[meals['soup']?.length - 1];
+      let dessert: ExtraDTO = meals['dessert']?.[meals['dessert']?.length - 1];
 
       let newDailyMenu: DailyMenuAdminDTO = {
         dateMenu: date,
@@ -167,19 +165,31 @@ export class CreateWeeklyMenuComponent implements OnInit {
 
     let newWeeklyMenu: WeeklyMenuAdminDTO = {
       dailyMenus: dailyMenus,
-      startDate: this.weekStart,
-      imageData: pictureBytes
+      startDate: this.weekStart
     }
 
     console.log(newWeeklyMenu);
-    this.menuService.saveWeeklyMenu(newWeeklyMenu).subscribe({
-      next: (result: any) => {
-        console.log(result)
-      },
-      error: (error: any) => {
-        console.error(error)
-      }
-    });
+    if (this.action == 'create') {
+      this.menuService.saveWeeklyMenu(newWeeklyMenu).subscribe({
+        next: (result: any) => {
+          console.log(result);
+          console.log(result.id);
+          this.uploadFile(result.id);
+        },
+        error: (error: any) => {
+          console.error(error)
+        }
+      });
+    } else if (this.action == 'edit') {
+      this.menuService.updateWeeklyMenu(newWeeklyMenu).subscribe({
+        next: (result: any) => {
+          this.uploadFile(this.currentMenuId);
+        },
+        error: (error: any) => {
+          console.error(error)
+        }
+      });
+    }
   }
 
   getDatesForRestOfWeek() {
@@ -270,11 +280,11 @@ export class CreateWeeklyMenuComponent implements OnInit {
   })
   }
 
-  uploadFile() {
+  uploadFile(id: number) {
     if (this.selectedFile) {
       const formData: FormData = new FormData();
       formData.append('file', this.selectedFile);
-      this.menuService.uploadFile(formData, 1).subscribe({
+      this.menuService.uploadFile(formData, id).subscribe({
         next: (result: any) => {
           console.log(result)
         },
@@ -297,20 +307,16 @@ export class CreateWeeklyMenuComponent implements OnInit {
       result = await this.menuService.getMenu().toPromise();
     }
     this.currentMenu = result.dailyMenu;
+    this.currentMenuId = result.idWeeklyMenu;
     return result;
   }
 
   populateChosenMeals(currentMenu: any) {
-    // console.log(currentMenu);
     let dailyMenus = currentMenu.dailyMenu;
-    // console.log(dailyMenus);
     for (let i = this.days.length - 1; i >= 0; i--) {
-      // console.log(this.days[i])
       let date = this.dates[i].replaceAll('-', '.') + '.';
       let menu = dailyMenus.filter((m: { dateMenu: string }) => m.dateMenu === date)[0];
-      // console.log(menu);
       this.mealTypeObj.forEach(mealType => {
-        // console.log('what')
         this.chosenMeals[this.days[i]][mealType.key].push(menu[mealType.key]);
       });
     }
