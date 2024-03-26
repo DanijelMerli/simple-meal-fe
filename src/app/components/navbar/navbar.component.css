@@ -13,6 +13,7 @@
 a {
     text-decoration: none;
     white-space: normal;
+    color: black;
 }
 
 button{
@@ -52,4 +53,9 @@ span {
 .tool-bar {
     background: yellow; 
     margin-bottom: 10px;
+}
+
+mat-select {
+    margin-left: 15px;
+    color: black;
 }

@@ -14,4 +14,8 @@ export class MenuService {
   getMenu():Observable<any>{
     return this.http.get(`${environment.apiUrl}meals/this-week`);
   }
+
+  getNextMenu():Observable<any>{
+    return this.http.get(`${environment.apiUrl}meals/next-week`);
+  }
 }

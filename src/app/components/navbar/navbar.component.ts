@@ -5,7 +5,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from  '@angular/material/sidenav';
 import { Router, NavigationEnd } from '@angular/router';
 import { UserService } from '../../services/user.service';
-
+import { MatSelect } from '@angular/material/select';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -52,7 +52,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.userService.clearToken();
-    // this.router.navigate(['']).then(()=>{location.reload();});
+    this.router.navigate(['login']).then(()=>{location.reload();});
     this.isTokenPresent = false;
   }
 
@@ -60,4 +60,17 @@ export class NavbarComponent implements OnInit {
   //   // this.jwtService.setToken("blablabla");
   //   this.isTokenPresent = true;
   // }
+
+  navigateToSelectedDay(event: any): void {
+    const selectedOption = event.value;
+    let parts = selectedOption.split('-');
+    let action = parts[0];
+    let week = parts[1];
+    console.log(action)
+    if (action == 'view') {
+      this.router.navigate(['/menu'], { queryParams: { week: week } }).then(()=>{location.reload();});
+    } else {
+      this.router.navigate(['/weekly-menu'], { queryParams: { week: week, action: action } }).then(()=>{location.reload();});
+    }
+  }
 }

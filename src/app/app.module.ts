@@ -34,7 +34,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatTooltip } from '@angular/material/tooltip';
 import { CreateWeeklyMenuComponent } from './components/create-weekly-menu/create-weekly-menu.component';
-
+import { MatSelect } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -77,7 +77,8 @@ import { CreateWeeklyMenuComponent } from './components/create-weekly-menu/creat
     DatePipe, 
     DragDropModule,
     MatDatepickerModule,
-    MatTooltip
+    MatTooltip,
+    MatSelect
   ],
   providers: [
     provideAnimationsAsync(),
