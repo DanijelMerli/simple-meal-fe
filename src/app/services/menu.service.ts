@@ -22,4 +22,8 @@ export class MenuService {
   saveWeeklyMenu(menu: WeeklyMenuAdminDTO): Observable<any> {
     return this.http.post(`${environment.apiUrl}meals/save-weekly-menu`, menu);
   }
+
+  uploadFile(formData: FormData, id: number): Observable<any> {
+    return this.http.post(`${environment.apiUrl}meals/uploadFile/${id}`, formData);
+  }
 }

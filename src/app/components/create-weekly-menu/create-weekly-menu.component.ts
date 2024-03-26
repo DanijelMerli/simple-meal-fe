@@ -51,12 +51,22 @@ export class CreateWeeklyMenuComponent implements OnInit {
   constructor(private mealService : MealService, private route: ActivatedRoute, private menuService: MenuService) {
     this.route.queryParams.subscribe(params => {
       let week = params['week'];
-      if (week == "this") {
-        this.getDatesForRestOfWeek();
-      } else {
-        this.getDatesForNextWeek();
+      let action = params['action'];
+      if (action == "create") {
+        if (week == "this") {
+          this.getDatesForRestOfWeek();
+        } else {
+          this.getDatesForNextWeek();
+        }
+      } else { // edit
+        if (week == "this") {
+          this.getDatesForRestOfWeek();
+        } else {
+          this.getDatesForNextWeek();
+        }
       }
     });
+
     this.days.forEach(day => {
       this.chosenMeals[day] = {};
       this.mealTypeObj.forEach(mealTypeObj => {
@@ -134,6 +144,7 @@ export class CreateWeeklyMenuComponent implements OnInit {
   }
 
   async saveMenu() {
+    this.uploadFile();
     let pictureBytes;
     await this.convertFileToByteArray(this.selectedFile).then(byteArray => {
       pictureBytes = byteArray;
@@ -254,19 +265,28 @@ export class CreateWeeklyMenuComponent implements OnInit {
     }
   }
 
-  private async convertFileToByteArray(file: File): Promise<Uint8Array> {
-    return new Promise<Uint8Array>((resolve, reject) => {
+  private async convertFileToByteArray(file: File): Promise<string> {
+    return new Promise<string> ((resolve,reject)=> {
       const reader = new FileReader();
-      reader.onload = () => {
-        const arrayBuffer = reader.result as ArrayBuffer;
-        const byteArray = new Uint8Array(arrayBuffer);
-        resolve(byteArray);
-      };
-      reader.onerror = () => {
-        reject('Error occurred while reading file');
-      };
-      reader.readAsArrayBuffer(file);
-    });
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result?.toString().replace(/^data:(.*,)?/, '') || '');
+      reader.onerror = error => reject(error);
+  })
+  }
+
+  uploadFile() {
+    if (this.selectedFile) {
+      const formData: FormData = new FormData();
+      formData.append('file', this.selectedFile);
+      this.menuService.uploadFile(formData, 1).subscribe({
+        next: (result: any) => {
+          console.log(result)
+        },
+        error: (error: any) => {
+          console.error(error)
+        }
+      });
+    }
   }
 }
 
