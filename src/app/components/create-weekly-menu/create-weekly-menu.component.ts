@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { MealService } from '../../services/meal.service';
-import { ExtraDTO, FitMealDTO, RegularMealDTO, WeeklyMenuAdminDTO, DailyMenuAdminDTO } from '../../dtos/MenuDTO';
+import { ExtraDTO, FitMealDTO, RegularMealDTO, WeeklyMenuAdminDTO, DailyMenuAdminDTO, WeeklyMenuDTO, DailyMenuDTO } from '../../dtos/MenuDTO';
 import {CdkDropList, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
@@ -48,23 +48,21 @@ export class CreateWeeklyMenuComponent implements OnInit {
   filePreview: string | ArrayBuffer | null = null;
   selectedFile!: File;
 
+  currentMenu!: DailyMenuDTO[];
+
   constructor(private mealService : MealService, private route: ActivatedRoute, private menuService: MenuService) {
+    let action;
+    let currentMenu;
     this.route.queryParams.subscribe(params => {
       let week = params['week'];
-      let action = params['action'];
-      if (action == "create") {
-        if (week == "this") {
-          this.getDatesForRestOfWeek();
-        } else {
-          this.getDatesForNextWeek();
-        }
-      } else { // edit
-        if (week == "this") {
-          this.getDatesForRestOfWeek();
-        } else {
-          this.getDatesForNextWeek();
-        }
+      action = params['action'];
+      // if (action == "create") {
+      if (week == "this") {
+        this.getDatesForRestOfWeek();
+      } else {
+        this.getDatesForNextWeek();
       }
+      // }
     });
 
     this.days.forEach(day => {
@@ -73,6 +71,12 @@ export class CreateWeeklyMenuComponent implements OnInit {
           this.chosenMeals[day][mealTypeObj.key] = [];
       });
     });
+
+    if (action == 'edit') {
+      currentMenu = this.getMenus().then(menuArray => {
+          this.populateChosenMeals(menuArray);
+      });
+    }
   }
 
   ngOnInit(): void {
@@ -131,15 +135,7 @@ export class CreateWeeklyMenuComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      const itemToMove = { ...event.previousContainer.data[event.previousIndex] };
-      // transferArrayItem(
-      //   event.previousContainer.data,
-      //   event.container.data,
-      //   event.previousIndex,
-      //   event.currentIndex,
-      // );
       event.previousContainer.data.splice(event.previousIndex, 1);
-      //event.previousContainer.data.splice(event.previousIndex, 0, itemToMove);
     }
   }
 
@@ -285,6 +281,37 @@ export class CreateWeeklyMenuComponent implements OnInit {
         error: (error: any) => {
           console.error(error)
         }
+      });
+    }
+  }
+
+  async getMenus(): Promise<WeeklyMenuDTO> {
+    let week;
+    this.route.queryParams.subscribe(params => {
+      week = params['week']
+    });
+    let result;
+    if (week == "next") {
+      result = await this.menuService.getNextMenu().toPromise();
+    } else {
+      result = await this.menuService.getMenu().toPromise();
+    }
+    this.currentMenu = result.dailyMenu;
+    return result;
+  }
+
+  populateChosenMeals(currentMenu: any) {
+    // console.log(currentMenu);
+    let dailyMenus = currentMenu.dailyMenu;
+    // console.log(dailyMenus);
+    for (let i = this.days.length - 1; i >= 0; i--) {
+      // console.log(this.days[i])
+      let date = this.dates[i].replaceAll('-', '.') + '.';
+      let menu = dailyMenus.filter((m: { dateMenu: string }) => m.dateMenu === date)[0];
+      // console.log(menu);
+      this.mealTypeObj.forEach(mealType => {
+        // console.log('what')
+        this.chosenMeals[this.days[i]][mealType.key].push(menu[mealType.key]);
       });
     }
   }
