@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
-import { WeeklyMenuDTO } from '../dtos/MenuDTO';
+import { WeeklyMenuAdminDTO } from '../dtos/MenuDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +17,9 @@ export class MenuService {
 
   getNextMenu():Observable<any>{
     return this.http.get(`${environment.apiUrl}meals/next-week`);
+  }
+
+  saveWeeklyMenu(menu: WeeklyMenuAdminDTO): Observable<any> {
+    return this.http.post(`${environment.apiUrl}meals/save-weekly-menu`, menu);
   }
 }

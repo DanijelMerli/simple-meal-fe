@@ -64,10 +64,10 @@ export class MenuComponent implements OnInit{
   async getAll(): Promise<void> {
     try {
       let result;
-      if (this.week == "this") {
-        result = await this.service.getMenu().toPromise();
-      } else {
+      if (this.week == "next") {
         result = await this.service.getNextMenu().toPromise();
+      } else {
+        result = await this.service.getMenu().toPromise();
       }
       if (result != undefined) {
         let dailyMenuList = result.dailyMenu;

@@ -57,3 +57,18 @@ export interface CreateFitMealDTO {
     price: number;
     shouldOrderEarly: boolean;
 }
+
+export interface WeeklyMenuAdminDTO {
+    idWeeklyMenu: number;
+    dailyMenus: Array<DailyMenuAdminDTO>;
+    startDate: string;
+    imageData: any;
+}
+
+export interface DailyMenuAdminDTO {
+    dateMenu: string;
+    regularMealId: number;
+    fitMealId: number;
+    soupId: number;
+    dessertId: number;
+}

@@ -23,7 +23,7 @@
                 [cdkDropListData]="regulars"
                 [cdkDropListConnectedTo]="['MondayRegularsList', 'TuesdayRegularsList', 'WednesdayRegularsList', 'ThursdayRegularsList', 'FridayRegularsList']"
                 class=""
-                (cdkDropListDropped)="dropMeal($event)">
+                (cdkDropListDropped)="dropBack($event)">
                 @for (regular of regulars; track regular) {
                 <div class="example-box" cdkDrag>
                     <div draggable="true" class="card">
@@ -50,7 +50,7 @@
               [cdkDropListData]="fits"
               [cdkDropListConnectedTo]="['MondayFitsList', 'TuesdayFitsList', 'WednesdayFitsList', 'ThursdayFitsList', 'FridayFitsList']"
               class=""
-              (cdkDropListDropped)="dropMeal($event)">
+              (cdkDropListDropped)="dropBack($event)">
               @for (fit of fits; track fit) {
                 <div class="example-box" cdkDrag>
                     <div draggable="true" class="card">
@@ -78,7 +78,7 @@
               [cdkDropListData]="soups"
               [cdkDropListConnectedTo]="['MondaySoupsList', 'TuesdaySoupsList', 'WednesdaySoupsList', 'ThursdaySoupsList', 'FridaySoupsList']"
               class=""
-              (cdkDropListDropped)="dropMeal($event)">
+              (cdkDropListDropped)="dropBack($event)">
               @for (soup of soups; track soup) {
                 <div class="example-box" cdkDrag>
                     <div draggable="true" class="card">
@@ -106,7 +106,7 @@
               [cdkDropListData]="desserts"
               [cdkDropListConnectedTo]="['MondayDessertsList', 'TuesdayDessertsList', 'WednesdayDessertsList', 'ThursdayDessertsList', 'FridayDessertsList']"
               class=""
-              (cdkDropListDropped)="dropMeal($event)">
+              (cdkDropListDropped)="dropBack($event)">
               @for (dessert of desserts; track dessert) {
                 <div class="example-box" cdkDrag>
                     <div draggable="true" class="card">
@@ -129,7 +129,7 @@
         <h1>Menu:</h1>
         <div *ngFor="let day of days" class="day-container">
             <h2>{{ day }}</h2>
-            <div *ngFor="let mealType of mealTypess" style="width: 21%;" class="example-container">
+            <div *ngFor="let mealType of mealTypeObj" style="width: 21%;" class="example-container">
                 <h3>{{ mealType.title }}:</h3>
                 <div
                     cdkDropList
