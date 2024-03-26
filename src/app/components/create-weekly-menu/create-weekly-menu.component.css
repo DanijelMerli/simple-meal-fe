@@ -130,3 +130,17 @@ button:disabled {
   font-size: medium;
   margin: 5px;
 }
+
+img {
+  height: 300px;
+  width: 400px;
+}
+
+.preview-container {
+  width: 400;
+  margin-left: 20px; 
+}
+
+.preview-container img {
+  height: auto;
+}

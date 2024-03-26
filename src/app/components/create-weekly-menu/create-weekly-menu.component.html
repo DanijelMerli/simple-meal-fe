@@ -149,7 +149,22 @@
             </div>
             <br/>
         </div>
-        <button (click)="saveMenu()">Save</button>
+
+        <form class=""
+        method="POST"
+        [formGroup]="picForm" 
+        (ngSubmit)="saveMenu()"
+        >
+            Menu picture:<br><input type="file" (change)="onFileChanged($event)" accept="image/*"><br><br>
+        </form>
+
+        <button type="button" (click)="saveMenu()">Save</button>
+        
+        <div class="preview-container">
+            <div *ngIf="filePreview">
+                <img [src]="filePreview" alt="File Preview" height="300" width="200">
+            </div>
+        </div>
         
         <!-- <span matTooltip="Tooltip message">Hover over me</span> -->
 

@@ -44,6 +44,9 @@ export class CreateWeeklyMenuComponent implements OnInit {
 
   chosenMeals: { [day: string]: { [mealType: string]: any[] } } = {};
 
+  picForm!: FormGroup;
+  filePreview: string | ArrayBuffer | null = null;
+  selectedFile!: File;
 
   constructor(private mealService : MealService, private route: ActivatedRoute, private menuService: MenuService) {
     this.route.queryParams.subscribe(params => {
@@ -72,6 +75,9 @@ export class CreateWeeklyMenuComponent implements OnInit {
     });
     this.selectedMealType = 'Regular'
     this.getAll();
+    this.picForm = new FormGroup({
+      }
+    );
   }
 
   selectChange(selectedValue: any) {
@@ -127,32 +133,35 @@ export class CreateWeeklyMenuComponent implements OnInit {
     }
   }
 
-  saveMenu() {
+  async saveMenu() {
+    let pictureBytes;
+    await this.convertFileToByteArray(this.selectedFile).then(byteArray => {
+      pictureBytes = byteArray;
+    });
     let dailyMenus: DailyMenuAdminDTO[] = [];
     for (let i = 0; i < this.days.length; i++) {
       let day = this.days[i];
       let date = this.dates[i];
       let meals = this.chosenMeals[day];
-      let regular: RegularMealDTO = meals['regular'][0];
-      let fit: FitMealDTO = meals['fit'][0];
-      let soup: ExtraDTO = meals['soup'][0];
-      let dessert: ExtraDTO = meals['dessert'][0];
+      let regular: RegularMealDTO = meals['regular']?.[0];
+      let fit: FitMealDTO = meals['fit']?.[0];
+      let soup: ExtraDTO = meals['soup']?.[0];
+      let dessert: ExtraDTO = meals['dessert']?.[0];
 
       let newDailyMenu: DailyMenuAdminDTO = {
         dateMenu: date,
-        regularMealId: regular.id,
-        fitMealId: fit.id,
-        soupId: soup.id,
-        dessertId: dessert.id
+        regularMealId: regular?.id,
+        fitMealId: fit?.id,
+        soupId: soup?.id,
+        dessertId: dessert?.id
       }
       dailyMenus.push(newDailyMenu);
     }
 
     let newWeeklyMenu: WeeklyMenuAdminDTO = {
-      idWeeklyMenu: -1,
       dailyMenus: dailyMenus,
       startDate: this.weekStart,
-      imageData: null
+      imageData: pictureBytes
     }
 
     console.log(newWeeklyMenu);
@@ -175,18 +184,18 @@ export class CreateWeeklyMenuComponent implements OnInit {
 
     const startOfWeek = new Date(today); 
     startOfWeek.setDate(today.getDate() - dayOfWeek); // Sunday
-    this.weekStart = `${this.addZeros(startOfWeek.getDate())}-${this.addZeros(startOfWeek.getMonth() + 1)}-${startOfWeek.getFullYear()}.`;
+
     // (from tomorrow to Friday)
     for (let i = dayOfWeek + 1; i <= 5; i++) {
         const date = new Date(startOfWeek);
         date.setDate(startOfWeek.getDate() + i);
-        const formattedDate = `${this.addZeros(date.getDate())}-${this.addZeros(date.getMonth() + 1)}-${date.getFullYear()}.`;
+        const formattedDate = `${this.addZeros(date.getDate())}-${this.addZeros(date.getMonth() + 1)}-${date.getFullYear()}`;
         dates.push(formattedDate);
         datesStr.push(allDays[i]);
     }
 
     startOfWeek.setDate(today.getDate() - dayOfWeek + 1); // Monday
-    this.weekStart = `${this.addZeros(startOfWeek.getDate())}-${this.addZeros(startOfWeek.getMonth() + 1)}-${startOfWeek.getFullYear()}.`;
+    this.weekStart = `${this.addZeros(startOfWeek.getDate())}-${this.addZeros(startOfWeek.getMonth() + 1)}-${startOfWeek.getFullYear()}`;
 
     // console.log('this')
     // console.log(dates, datesStr);
@@ -209,13 +218,13 @@ export class CreateWeeklyMenuComponent implements OnInit {
     for (let i = 1; i <= 5; i++) {
         const date = new Date(startOfWeek);
         date.setDate(startOfWeek.getDate() + i);
-        const formattedDate = `${this.addZeros(date.getDate())}-${this.addZeros(date.getMonth() + 1)}-${date.getFullYear()}.`;
+        const formattedDate = `${this.addZeros(date.getDate())}-${this.addZeros(date.getMonth() + 1)}-${date.getFullYear()}`;
         dates.push(formattedDate);
         datesStr.push(allDays[i]);
     }
 
     startOfWeek.setDate(today.getDate() - dayOfWeek + 7 + 1); // Next Monday
-    this.weekStart = `${this.addZeros(startOfWeek.getDate())}-${this.addZeros(startOfWeek.getMonth() + 1)}-${startOfWeek.getFullYear()}.`;
+    this.weekStart = `${this.addZeros(startOfWeek.getDate())}-${this.addZeros(startOfWeek.getMonth() + 1)}-${startOfWeek.getFullYear()}`;
     // console.log('next')
     // console.log(dates, datesStr);
     // console.log(this.weekStart);
@@ -225,6 +234,39 @@ export class CreateWeeklyMenuComponent implements OnInit {
 
   addZeros(num: any) {
     return num.toString().padStart(2, '0');
+  }
+
+  onFileChanged(event: any) {
+    this.selectedFile = event.target.files[0];
+    this.previewFile();
+    //this.uploadFile(this.selectedFile)
+  }
+
+  previewFile() {
+    if (this.selectedFile) {
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        this.filePreview = reader.result;
+      };
+  
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  private async convertFileToByteArray(file: File): Promise<Uint8Array> {
+    return new Promise<Uint8Array>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const arrayBuffer = reader.result as ArrayBuffer;
+        const byteArray = new Uint8Array(arrayBuffer);
+        resolve(byteArray);
+      };
+      reader.onerror = () => {
+        reject('Error occurred while reading file');
+      };
+      reader.readAsArrayBuffer(file);
+    });
   }
 }
 

@@ -59,7 +59,6 @@ export interface CreateFitMealDTO {
 }
 
 export interface WeeklyMenuAdminDTO {
-    idWeeklyMenu: number;
     dailyMenus: Array<DailyMenuAdminDTO>;
     startDate: string;
     imageData: any;
