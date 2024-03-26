@@ -27,10 +27,8 @@ export class LoginComponent {
       const loginRequest = this.loginForm.value;
       this.auth.login(loginRequest).subscribe(
         response => {
-          console.log('Login successful');
           console.log(response.token);
           this.userService.setToken(response.token);     
-          alert("Login successful")
           this.router.navigate(['menu']).then(()=>{location.reload();});
         },
         error => {
