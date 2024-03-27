@@ -21,7 +21,6 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         
-        // Gledamo na kojoj smo putanji i prikazujemo navbar u skladu sa tim
         const navigationEndEvent = event as NavigationEnd;
         const url = navigationEndEvent.url;
         if (url.includes('login')) {
@@ -50,19 +49,6 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.userService.clearToken();
-    this.router.navigate(['login']).then(()=>{location.reload();});
     this.isTokenPresent = false;
-  }
-
-  navigateToSelectedDay(event: any): void {
-    const selectedOption = event.value;
-    let parts = selectedOption.split('-');
-    let action = parts[0];
-    let week = parts[1];
-    if (action == 'view') {
-      this.router.navigate(['/menu'], { queryParams: { week: week } }).then(()=>{location.reload();});
-    } else {
-      this.router.navigate(['/weekly-menu'], { queryParams: { week: week, action: action } }).then(()=>{location.reload();});
-    }
   }
 }

@@ -1,0 +1,32 @@
+<div class="table-container">
+  <h2>Today's Orders Checklist</h2>
+  <div *ngIf="ordersData">
+    <table>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Price for Order</th>
+          <th>Paid</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of ordersData.users">
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+          <td>${{ user.priceForOrder }}</td>
+          <td>
+            <input type="checkbox" [checked]="user.paid" (change)="togglePaid(user, $event)" [disabled]="user.paid">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 class="total2">Paid Total: ${{ calculatePaidTotal() }}</h3>
+    <h3 class="total1">Grand Total: ${{ calculateGrandTotal() }}</h3>
+  </div>
+  <div *ngIf="!ordersData && !errorMessage">
+    <p>Loading...</p>
+  </div>
+</div>

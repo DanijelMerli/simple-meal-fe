@@ -6,8 +6,9 @@ import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
 import {FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-// import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-menu',
@@ -17,7 +18,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MenuComponent implements OnInit{
 
-  // displayedColumns: string[] = ['description', 'price', 'size', 'type', 'special' /*, 'order'*/];
   displayedColumns: string[] = ['date', 'regularMeal', 'fitMeal', 'extra-soup', 'extra-dessert'];
   dataSource: MatTableDataSource<DailyMenuDTO> = new MatTableDataSource<DailyMenuDTO>();
   totalElements: number = 0;
@@ -38,6 +38,7 @@ export class MenuComponent implements OnInit{
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private service: MenuService, private datePipe: DatePipe, private route: ActivatedRoute) {
+  constructor(private service: MenuService, private snackBar: MatSnackBar) {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth > 750) {
       this.cards = false;
@@ -78,7 +79,6 @@ export class MenuComponent implements OnInit{
         this.endDate = this.calculateEndDate(this.startDate);
         this.endDateStr = this.formatDate(this.endDate);
       } else {
-        console.log(":-(")
         this.menu = [];
       }
       if (!this.cards) {
@@ -88,11 +88,14 @@ export class MenuComponent implements OnInit{
       } else {
         this.menu.forEach(element => {
         this.dates.push(element.dateMenu);
+          this.dates.push(element.dateMenu);
         });
       }
     }
    catch (error) {
-    console.log(error)
+    this.snackBar.open('An error occurred', undefined, {
+      duration: 2000,
+    });
   }
   }
 

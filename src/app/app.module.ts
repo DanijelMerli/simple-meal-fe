@@ -35,6 +35,12 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatTooltip } from '@angular/material/tooltip';
 import { CreateWeeklyMenuComponent } from './components/create-weekly-menu/create-weekly-menu.component';
 import { MatSelect } from '@angular/material/select';
+import { AccessDeniedPageComponent } from './components/pages/access-denied-page/access-denied-page.component';
+import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
+import { InvalidTokenInterceptor } from './components/shared/invalidTokenInterceptor';
+import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
+import { ChecklistComponent } from './components/checklist/checklist.component';
+
 
 @NgModule({
   declarations: [
@@ -50,6 +56,9 @@ import { MatSelect } from '@angular/material/select';
     EditMealFormComponent,
     CreateMenuComponent,
     CreateWeeklyMenuComponent,
+    AccessDeniedPageComponent,
+    NotFoundPageComponent,
+    ChecklistComponent,
     
   ],
   imports: [
@@ -78,12 +87,23 @@ import { MatSelect } from '@angular/material/select';
     DragDropModule,
     MatDatepickerModule,
     MatTooltip,
-    MatSelect
+    MatSelect,
+    DatePipe,
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useValue: {
+          tokenGetter: () => {
+            return localStorage.getItem('token');
+          }
+        }
+      }
+    })
   ],
   providers: [
     provideAnimationsAsync(),
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-
+    { provide: HTTP_INTERCEPTORS, useClass: InvalidTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
