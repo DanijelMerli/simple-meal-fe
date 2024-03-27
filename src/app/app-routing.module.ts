@@ -11,6 +11,7 @@ import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-for
 import { AuthGuard } from './components/shared/authGuard';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 import { AccessDeniedPageComponent } from './components/pages/access-denied-page/access-denied-page.component';
+import { ChecklistComponent } from './components/checklist/checklist.component';
 
 const routes: Routes = [
   {path: "home", component: HomePageComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: "add-meals", component: MealsFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
   {path: "edit-meals", component: EditMealFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
   {path: 'access-denied', component: AccessDeniedPageComponent },
+  {path: 'checklist', component: ChecklistComponent},
   {path: 'order', component: OrderComponent, canActivate: [AuthGuard]},
   {path: 'order/:day', component: OrderComponent, canActivate: [AuthGuard]},
   {path: '', redirectTo: '/order/today', pathMatch: 'full'},
