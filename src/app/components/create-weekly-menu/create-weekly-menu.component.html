@@ -16,6 +16,7 @@
     <div class="left">
         <div *ngIf="selectedMealType=='Regular'" class="example-container">
             <h2>Regular meals:</h2>
+            <span *ngIf="!regulars">No regular meals!</span>
             <div
                 cdkDropList
                 id="regularList"
@@ -32,9 +33,6 @@
                             <li class="list-group-item">{{regular?.description}}</li>
                             <li class="list-group-item price">Big: {{regular?.largePrice}} din | Small: {{regular?.smallPrice}} din</li>
                         </ul>
-                        <ul *ngIf="regulars.length == 0" class="list-group list-group-flush">
-                            <li class="list-group-item"><h2>No regular meals</h2></li>
-                        </ul>
                     </div>
                 </div>
                 }
@@ -43,6 +41,7 @@
 
         <div *ngIf="selectedMealType=='Fit'" class="example-container">
             <h2>Fit meals:</h2>
+            <span *ngIf="!fits">No fit meals!</span>
             <div
               cdkDropList
               id="fitList"
@@ -60,9 +59,6 @@
                             <li class="list-group-item price">{{fit?.price}} din</li>
                             <li *ngIf="fit?.shouldOrderEarly" class="list-group-item early">*should order a day early</li>
                         </ul>
-                        <ul *ngIf="fits.length == 0" class="list-group list-group-flush">
-                            <li class="list-group-item"><h2>No fit meals</h2></li>
-                        </ul>
                     </div>
                 </div>
               }
@@ -71,6 +67,7 @@
 
         <div *ngIf="selectedMealType=='Soup'" class="example-container">
             <h2>Soups:</h2>
+            <span *ngIf="!soups">No soups!</span>
             <div
               cdkDropList
               id="soupList"
@@ -88,9 +85,6 @@
                             <li class="list-group-item price">{{soup?.price}} din</li>
                             <li class="list-group-item early">*should order a day early</li>
                         </ul>
-                        <ul *ngIf="soups.length == 0" class="list-group list-group-flush">
-                            <li class="list-group-item"><h2>No soups</h2></li>
-                        </ul>
                       </div>
                 </div>
               }
@@ -99,6 +93,7 @@
 
         <div *ngIf="selectedMealType=='Dessert'" class="example-container">
             <h2>Desserts:</h2>
+            <span *ngIf="!desserts">No desserts!</span>
             <div
               cdkDropList
               id="dessertList"
@@ -167,8 +162,5 @@
                 <img [src]="filePreview" alt="File Preview">
             </div>
         </div>
-        
-        <!-- <span matTooltip="Tooltip message">Hover over me</span> -->
-
     </div>
 </div>

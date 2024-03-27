@@ -1,13 +1,11 @@
-import { Component, OnInit, ViewChild, HostListener  } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
-import {WeeklyMenuDTO, DailyMenuDTO } from '../../dtos/MenuDTO';
-import {MatTableDataSource} from "@angular/material/table";
+import { WeeklyMenuDTO, DailyMenuDTO } from '../../dtos/MenuDTO';
+import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
-import {FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
-// import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-menu',
@@ -15,9 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './menu.component.css',
   providers: [DatePipe]
 })
-export class MenuComponent implements OnInit{
-
-  // displayedColumns: string[] = ['description', 'price', 'size', 'type', 'special' /*, 'order'*/];
+export class MenuComponent implements OnInit {
   displayedColumns: string[] = ['date', 'regularMeal', 'fitMeal', 'extra-soup', 'extra-dessert'];
   dataSource: MatTableDataSource<DailyMenuDTO> = new MatTableDataSource<DailyMenuDTO>();
   totalElements: number = 0;
@@ -34,6 +30,7 @@ export class MenuComponent implements OnInit{
   cardsCurrentDate: string = "";
   cardsCurrentMeals: any;
   week!: string;
+  menuExists: boolean = true;
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -52,7 +49,7 @@ export class MenuComponent implements OnInit{
 
   ngOnInit(): void {
     this.getAll();
-    this.selectForm = new FormGroup( {
+    this.selectForm = new FormGroup({
       dateMenu: new FormControl('', Validators.required),
     })
     this.selectForm.get('dateMenu')?.valueChanges.subscribe(selectedValue => {
@@ -70,6 +67,7 @@ export class MenuComponent implements OnInit{
         result = await this.service.getMenu().toPromise();
       }
       if (result != undefined) {
+        this.menuExists = true;
         let dailyMenuList = result.dailyMenu;
         dailyMenuList.sort((a: DailyMenuDTO, b: DailyMenuDTO) => this.convertDate(a.dateMenu).getTime() - this.convertDate(b.dateMenu).getTime());
         this.menu = dailyMenuList;
@@ -79,6 +77,7 @@ export class MenuComponent implements OnInit{
         this.endDateStr = this.formatDate(this.endDate);
       } else {
         console.log(":-(")
+        this.menuExists = false;
         this.menu = [];
       }
       if (!this.cards) {
@@ -87,16 +86,16 @@ export class MenuComponent implements OnInit{
         this.dataSource.sort = this.sort;
       } else {
         this.menu.forEach(element => {
-        this.dates.push(element.dateMenu);
+          this.dates.push(element.dateMenu);
         });
       }
     }
-   catch (error) {
-    console.log(error)
-  }
+    catch (error) {
+      this.menuExists = false;
+    }
   }
 
-  order(obj: WeeklyMenuDTO) {}
+  order(obj: WeeklyMenuDTO) { }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -166,5 +165,5 @@ export class MenuComponent implements OnInit{
     const formattedDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
     return this.datePipe.transform(formattedDate, 'EEEE dd.MM.yyyy.');
   }
-  
+
 }
