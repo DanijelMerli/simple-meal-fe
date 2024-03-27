@@ -221,4 +221,12 @@ checkWeekendTomorrow() {
     else
       return false;
   }
+
+  correctTimeSpecials(): boolean {
+    const currentTime = this.date.getHours();
+    
+    return  currentTime<=17
+  }
 }
+
+

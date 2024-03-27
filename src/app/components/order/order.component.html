@@ -99,8 +99,8 @@
                   <button mat-button type="submit" [disabled]="arrayForms[1].invalid">Add</button>
                 </div>
 
-                  <div *ngIf="dailyMenu.fit.shouldOrderEarly && isToday" class="error">
-                  Can't order this today!
+                  <div *ngIf="(dailyMenu.fit.shouldOrderEarly && isToday) || (!isToday &&  !correctTimeSpecials())" class="error">
+                  Should order a day early before 17h.
                   </div>
               </form>
             </div>
@@ -122,12 +122,12 @@
                   
                     <p>Price: {{dailyMenu.soup.price}}</p>
                     
-                    <div *ngIf="!isToday">
+                    <div *ngIf="!(isToday || (!isToday &&  !correctTimeSpecials()))">
                       <button mat-button type="submit" [disabled]="arrayForms[2].invalid" >Add</button>
                     </div>
                     
-                    <div *ngIf="isToday" class="error">
-                      Should order day early
+                    <div *ngIf="isToday || (!isToday &&  !correctTimeSpecials())" class="error">
+                      Should order a day early before 17h.
                       </div>
           
                 </form>
@@ -150,12 +150,12 @@
                 
                       <p>Price: {{dailyMenu.dessert.price}}</p>
 
-                      <div *ngIf="!isToday">
+                      <div *ngIf="!(isToday || (!isToday &&  !correctTimeSpecials())) ">
                         <button mat-button="submit" [disabled]="arrayForms[3].invalid" >Add</button>
                       </div>
                       
-                      <div *ngIf="isToday" class="error">
-                        Should order day early
+                      <div *ngIf="isToday || (!isToday &&  !correctTimeSpecials())" class="error">
+                        Should order a day early before 17h.
                         </div>
                       
                      
