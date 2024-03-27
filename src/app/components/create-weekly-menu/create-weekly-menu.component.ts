@@ -143,7 +143,7 @@ export class CreateWeeklyMenuComponent implements OnInit {
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.container.data.length,
       );
       event.previousContainer.data.splice(event.previousIndex, 0, itemToMove);
     }
