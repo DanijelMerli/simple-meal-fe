@@ -21,7 +21,6 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         
-        // Gledamo na kojoj smo putanji i prikazujemo navbar u skladu sa tim
         const navigationEndEvent = event as NavigationEnd;
         const url = navigationEndEvent.url;
         if (url.includes('login')) {

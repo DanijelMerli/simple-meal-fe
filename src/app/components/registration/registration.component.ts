@@ -5,6 +5,7 @@ import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { UserDTO } from '../../dtos/UserDTO';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registration',
@@ -15,7 +16,7 @@ export class RegistrationComponent {
   registrationForm!: FormGroup;
   failedRegisterMsg: string='';
 
-  constructor(private authService: AuthService,private router: Router) {
+  constructor(private authService: AuthService,private router: Router,private snackBar: MatSnackBar) {
     this.registrationForm = new FormGroup(
       {
       firstName: new FormControl( '', [Validators.required]),
@@ -33,37 +34,35 @@ export class RegistrationComponent {
   passwordMatchValidator(control: AbstractControl) {
     return control.get('password')?.value === control.get('confirmPassword')?.value ?  null : {mismatch: true} ;
       }
-    
-
+  
       onSubmit() {
         if (this.registrationForm.valid) {
           const formData = this.registrationForm.value;
           const user = new UserDTO(formData);
           this.authService.registerUser(user).pipe(
             tap(response => {
-              //  routing to login
               this.router.navigate(['/login']);
-
             }),
             catchError(error =>{ if (error instanceof HttpErrorResponse) {
-              console.log(error.error.message)
-              this.failedRegisterMsg = 'Backend error:' + this.mapErrorMessage(error.error.message);
+              this.snackBar.open(this.mapErrorMessage(error.error.message), undefined, {
+                duration: 2000,
+              });
             } else {
-
-              this.failedRegisterMsg='Frontend error:'+ error.message;
+              this.snackBar.open(this.mapErrorMessage(error.message), undefined, {
+                duration: 2000,
+              });
             }
             return throwError(() => new Error(error));
           }
           )).subscribe();
         } else {
-          this.failedRegisterMsg="Something went wrong...";
+          this.snackBar.open('Something went wrong...', undefined, {
+            duration: 2000,
+          });
         }
       }
     
-
-
-    mapErrorMessage(errorMessage: string): string {
-      
+    mapErrorMessage(errorMessage: string): string {    
       if (errorMessage.includes('email')) {
         return 'Email is already in use. Please choose a different email.';
       } else if (errorMessage.includes('registration')) {

@@ -4,8 +4,10 @@ import { WeeklyMenuDTO, DailyMenuDTO } from '../../dtos/MenuDTO';
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-menu',
@@ -76,7 +78,6 @@ export class MenuComponent implements OnInit {
         this.endDate = this.calculateEndDate(this.startDate);
         this.endDateStr = this.formatDate(this.endDate);
       } else {
-        console.log(":-(")
         this.menuExists = false;
         this.menu = [];
       }

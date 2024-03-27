@@ -38,6 +38,7 @@ import { AccessDeniedPageComponent } from './components/pages/access-denied-page
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 import { InvalidTokenInterceptor } from './components/shared/invalidTokenInterceptor';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
+import { ChecklistComponent } from './components/checklist/checklist.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
     CreateWeeklyMenuComponent,
     AccessDeniedPageComponent,
     NotFoundPageComponent,
+    ChecklistComponent,
     
   ],
   imports: [
