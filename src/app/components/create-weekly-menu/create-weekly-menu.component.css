@@ -135,12 +135,11 @@ button:disabled {
 }
 
 img {
-  height: 300px;
-  width: 400px;
+  width: 90%;
 }
 
 .preview-container {
-  width: 400px;
+  width: 90%;
   margin-left: 20px; 
 }
 

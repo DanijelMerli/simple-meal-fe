@@ -164,6 +164,7 @@ export class CreateWeeklyMenuComponent implements OnInit {
       let fit: FitMealDTO = meals['fit']?.[meals['fit']?.length - 1];
       let soup: ExtraDTO = meals['soup']?.[meals['soup']?.length - 1];
       let dessert: ExtraDTO = meals['dessert']?.[meals['dessert']?.length - 1];
+      
       if ((regular && !fit) || (!regular && fit)) {
         this.errors[day] += "Regular and fit meals always go together! ";
         hasErrors = true;
