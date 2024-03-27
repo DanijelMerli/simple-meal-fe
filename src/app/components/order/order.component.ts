@@ -127,6 +127,7 @@ export class OrderComponent implements OnInit {
     this.orderDisplayItems.push(this.orderDispl);
         }
       }
+
   }
 
  

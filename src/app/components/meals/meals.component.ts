@@ -55,7 +55,6 @@ export class MealsComponent implements OnInit {
   }
 
   selectChange(selectedValue: any) {
-    console.log(selectedValue);
     this.mealType = selectedValue;
     if (selectedValue == 'Regular') {
       this.displayedColumns = ['name', 'description', 'smallPrice', 'largePrice', 'actions'];

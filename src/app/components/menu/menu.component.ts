@@ -59,7 +59,6 @@ export class MenuComponent implements OnInit{
       if (result != undefined) {
         let dailyMenuList = result.dailyMenu;
         dailyMenuList.sort((a: DailyMenuDTO, b: DailyMenuDTO) => this.convertDate(a.dateMenu).getTime() - this.convertDate(b.dateMenu).getTime());
-        console.log(dailyMenuList);
         this.menu = dailyMenuList;
         this.startDateStr = result.startDate;
         this.startDate = this.convertDate(this.startDateStr);
@@ -143,7 +142,6 @@ export class MenuComponent implements OnInit{
       this.cardsCurrentDate = selectedValue;
       this.menu.forEach(daily => {
         if (daily.dateMenu == selectedValue) {
-          console.log(daily);
           this.cardsCurrentMeals = daily;
         }
       });
