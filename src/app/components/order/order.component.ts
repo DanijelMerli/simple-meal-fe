@@ -22,11 +22,17 @@ export class OrderComponent implements OnInit {
   arrayForms: FormGroup[] = [];
   price: number = 0;
   date: Date = new Date();
-  orderDisplayItems: OrderDisplayItem[] = [];
-  displayColumns: string[] = ['id', 'name', 'quantity', 'totalPrice', 'remove'];
+  orderDisplayItems: OrderDisplayItem[]=[];
   orderDispl: OrderDisplayItem | undefined;
-  isToday: boolean = true;
-  submitMsg: string = '';
+  isToday:boolean = true;
+  submitMsg: string='';
+  isWeekend: boolean = false;
+  isWeekendTomorrow: boolean = false;
+  isHoliday: boolean = false;
+  isHolidayTomorrow: boolean = false;
+  
+  
+  
 
 
   constructor(private scrooler: ViewportScroller, private route: ActivatedRoute, private orderService: OrderService, private snackBar: MatSnackBar) {
@@ -53,6 +59,11 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkWeekend();
+    this.checkWeekendTomorrow();
+    this.checkHoliday();
+    this.checkHolidayTomorrow();
+    
     this.route.params.subscribe(params => {
       const day = params['day'];
       if (day === 'today' || day === undefined) {
@@ -89,31 +100,52 @@ export class OrderComponent implements OnInit {
     price: number, priceLarge: number = 0, isNotReg = 1) {
 
     const quantity = this.arrayForms[orderNum].get("quantity")?.value;
-    this.orderService.saveOrderItem(id, quantity, this.selectedMealType);
-    if (priceLarge !== 0)
-      price = priceLarge;
-
-    if (isNotReg == 0) {
+    this.orderService.saveOrderItem(id,quantity,this.selectedMealType);
+    if (isNotReg==0 && this.selectedMealType=="LARGE")
+      price=priceLarge;
+    
+    if (isNotReg==0) {
       name = name + " " + this.selectedMealType;
     }
-
-    this.orderDispl = new OrderDisplayItem(id, name, quantity, price, this.selectedMealType)
+    if (!isNotReg) {
+      const foundItemReg = this.orderDisplayItems.find(el => el.id === id && el.type === this.selectedMealType);
+      if (foundItemReg) {
+        foundItemReg.quantity=foundItemReg.quantity+quantity;
+        foundItemReg.totalPrice = foundItemReg.quantity * price;
+    
+      } else {
+      this.orderDispl = new OrderDisplayItem(id, name, quantity,price,this.selectedMealType);
+      this.orderDisplayItems.push(this.orderDispl);
+    }
+  } else {
+    const foundItem = this.orderDisplayItems.find(el => el.id === id);
+        if (foundItem) {
+          foundItem.quantity=foundItem.quantity+quantity;
+          foundItem.totalPrice =  foundItem.quantity * price;
+        } else {
+    this.orderDispl = new OrderDisplayItem(id, name, quantity,price,this.selectedMealType);
     this.orderDisplayItems.push(this.orderDispl);
+        }
+      }
 
-    this.selectedMealType = '';
   }
+
+ 
 
   submitOrder() {
     this.orderService.placeOrder(this.isToday).subscribe(response => {
-      this.submitMsg = "Your order was successfully submitted";
-    }, error => {
-      this.submitMsg = "Error: " + error.status;
-      this.snackBar.open('Error occurred in HTTP request', undefined, {
+      this.snackBar.open('  Your order was successfully submitted', undefined, {
         duration: 2000,
       });
-    });
-    this.orderDisplayItems = [];
+    }, error => {
+      this.snackBar.open('  Your order was NOT  successfully submitted', undefined, {
+        duration: 2000,
+      })
+    
 
+ });
+    this.orderDisplayItems=[];
+    
   }
 
   updatePrice() {
@@ -132,12 +164,70 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  correctTime(): boolean {
+  
 
+  checkHoliday() {
+      return this.orderService.isHoliday().subscribe((response: boolean) => {
+        this.isHoliday = response;
+      },
+      error => {
+        this.snackBar.open('Error fetching menu', undefined, {
+          duration: 2000,
+        });
+      }
+     
+      );
+  }
+
+  checkWeekend() {
+    return this.orderService.isWeekend().subscribe((response: boolean) => {
+      this.isWeekend = response;
+    },
+    error => {
+      this.snackBar.open('Error fetching menu', undefined, {
+        duration: 2000,
+      });
+    });
+
+  }
+
+  checkHolidayTomorrow() {
+    return this.orderService.isHolidayTomorrow().subscribe((response: boolean) => {
+      this.isHolidayTomorrow = response;
+    },
+    error => {
+      this.snackBar.open('Error fetching menu', undefined, {
+        duration: 2000,
+      });
+    });
+}
+
+checkWeekendTomorrow() {
+  return this.orderService.isWeekendTomorrow().subscribe((response: boolean) => {
+    this.isWeekendTomorrow = response;
+  },
+  error => {
+    this.snackBar.open('Error fetching menu', undefined, {
+      duration: 2000,
+    });
+  });;
+
+}
+
+
+  correctTime(): boolean {
     const currentTime = this.date.getHours();
     if ((currentTime >= 8 && currentTime <= 10) || !this.isToday)
       return true;
     else
       return false;
   }
+
+  correctTimeSpecials(): boolean {
+    const currentTime = this.date.getHours();
+    
+    return  currentTime<=17
+  }
 }
+
+

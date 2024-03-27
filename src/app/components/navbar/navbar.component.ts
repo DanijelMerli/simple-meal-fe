@@ -5,7 +5,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from  '@angular/material/sidenav';
 import { Router, NavigationEnd } from '@angular/router';
 import { UserService } from '../../services/user.service';
-
+import { MatSelect } from '@angular/material/select';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',

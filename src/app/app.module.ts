@@ -29,6 +29,12 @@ import { MatSortModule } from '@angular/material/sort';
 import { MealsComponent } from './components/meals/meals.component';
 import { MealsFormComponent } from './components/meals-form/meals-form.component';
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
+import { CreateMenuComponent } from './components/create-menu/create-menu.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatTooltip } from '@angular/material/tooltip';
+import { CreateWeeklyMenuComponent } from './components/create-weekly-menu/create-weekly-menu.component';
+import { MatSelect } from '@angular/material/select';
 import { AccessDeniedPageComponent } from './components/pages/access-denied-page/access-denied-page.component';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 import { InvalidTokenInterceptor } from './components/shared/invalidTokenInterceptor';
@@ -48,6 +54,8 @@ import { ChecklistComponent } from './components/checklist/checklist.component';
     MealsComponent,
     MealsFormComponent,
     EditMealFormComponent,
+    CreateMenuComponent,
+    CreateWeeklyMenuComponent,
     AccessDeniedPageComponent,
     NotFoundPageComponent,
     ChecklistComponent,
@@ -75,6 +83,11 @@ import { ChecklistComponent } from './components/checklist/checklist.component';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    DatePipe, 
+    DragDropModule,
+    MatDatepickerModule,
+    MatTooltip,
+    MatSelect,
     DatePipe,
     JwtModule.forRoot({
       jwtOptionsProvider: {

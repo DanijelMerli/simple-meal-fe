@@ -1,0 +1,172 @@
+<form style="margin-left: 10%;"
+    method="POST"
+    [formGroup]="selectForm" 
+    >
+    <div class="container">
+        <div class="left">
+            <label style="margin-right: 10px;">Choose meal type:</label>
+            <select #issuer class="element" name="mealType" formControlName="mealType">
+                <option class="option" *ngFor="let option of mealTypes;let i = 'index';" [value]="option">{{option}}</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+<div class="container">
+    <div class="left">
+        <div *ngIf="selectedMealType=='Regular'" class="example-container">
+            <h2>Regular meals:</h2>
+            <div
+                cdkDropList
+                id="regularList"
+                #regularList="cdkDropList"
+                [cdkDropListData]="regulars"
+                [cdkDropListConnectedTo]="['MondayRegularsList', 'TuesdayRegularsList', 'WednesdayRegularsList', 'ThursdayRegularsList', 'FridayRegularsList']"
+                class=""
+                (cdkDropListDropped)="dropBack($event)">
+                @for (regular of regulars; track regular) {
+                <div class="example-box" cdkDrag>
+                    <div draggable="true" class="card">
+                        <ul *ngIf="regulars.length != 0" class="list-group list-group-flush">
+                            <li class="list-group-item"><h2>{{regular?.name}}</h2></li>
+                            <li class="list-group-item">{{regular?.description}}</li>
+                            <li class="list-group-item price">Big: {{regular?.largePrice}} din | Small: {{regular?.smallPrice}} din</li>
+                        </ul>
+                        <ul *ngIf="regulars.length == 0" class="list-group list-group-flush">
+                            <li class="list-group-item"><h2>No regular meals</h2></li>
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div *ngIf="selectedMealType=='Fit'" class="example-container">
+            <h2>Fit meals:</h2>
+            <div
+              cdkDropList
+              id="fitList"
+              #fitList="cdkDropList"
+              [cdkDropListData]="fits"
+              [cdkDropListConnectedTo]="['MondayFitsList', 'TuesdayFitsList', 'WednesdayFitsList', 'ThursdayFitsList', 'FridayFitsList']"
+              class=""
+              (cdkDropListDropped)="dropBack($event)">
+              @for (fit of fits; track fit) {
+                <div class="example-box" cdkDrag>
+                    <div draggable="true" class="card">
+                        <ul *ngIf="fits.length != 0" class="list-group list-group-flush">
+                            <li class="list-group-item"><h2>{{fit?.name}}</h2></li>
+                            <li class="list-group-item">{{fit?.description}}</li>
+                            <li class="list-group-item price">{{fit?.price}} din</li>
+                            <li *ngIf="fit?.shouldOrderEarly" class="list-group-item early">*should order a day early</li>
+                        </ul>
+                        <ul *ngIf="fits.length == 0" class="list-group list-group-flush">
+                            <li class="list-group-item"><h2>No fit meals</h2></li>
+                        </ul>
+                    </div>
+                </div>
+              }
+            </div>
+        </div>
+
+        <div *ngIf="selectedMealType=='Soup'" class="example-container">
+            <h2>Soups:</h2>
+            <div
+              cdkDropList
+              id="soupList"
+              #soupList="cdkDropList"
+              [cdkDropListData]="soups"
+              [cdkDropListConnectedTo]="['MondaySoupsList', 'TuesdaySoupsList', 'WednesdaySoupsList', 'ThursdaySoupsList', 'FridaySoupsList']"
+              class=""
+              (cdkDropListDropped)="dropBack($event)">
+              @for (soup of soups; track soup) {
+                <div class="example-box" cdkDrag>
+                    <div draggable="true" class="card">
+                        <ul *ngIf="soups.length != 0" class="list-group list-group-flush">
+                            <li class="list-group-item"><h2>{{soup?.name}}</h2></li>
+                            <li class="list-group-item">{{soup?.description}}</li>
+                            <li class="list-group-item price">{{soup?.price}} din</li>
+                            <li class="list-group-item early">*should order a day early</li>
+                        </ul>
+                        <ul *ngIf="soups.length == 0" class="list-group list-group-flush">
+                            <li class="list-group-item"><h2>No soups</h2></li>
+                        </ul>
+                      </div>
+                </div>
+              }
+            </div>
+        </div>
+
+        <div *ngIf="selectedMealType=='Dessert'" class="example-container">
+            <h2>Desserts:</h2>
+            <div
+              cdkDropList
+              id="dessertList"
+              #dessertList="cdkDropList"
+              [cdkDropListData]="desserts"
+              [cdkDropListConnectedTo]="['MondayDessertsList', 'TuesdayDessertsList', 'WednesdayDessertsList', 'ThursdayDessertsList', 'FridayDessertsList']"
+              class=""
+              (cdkDropListDropped)="dropBack($event)">
+              @for (dessert of desserts; track dessert) {
+                <div class="example-box" cdkDrag>
+                    <div draggable="true" class="card">
+                        <ul *ngIf="desserts.length != 0" class="list-group list-group-flush">
+                            <li class="list-group-item"><h2>{{dessert?.name}}</h2></li>
+                            <li class="list-group-item">{{dessert?.description}}</li>
+                            <li class="list-group-item price">{{dessert?.price}} din</li>
+                            <li class="list-group-item early">*should order a day early</li>
+                        </ul>
+                        <ul *ngIf="desserts.length == 0" class="list-group list-group-flush">
+                            <li class="list-group-item"><h2>No desserts</h2></li>
+                        </ul>
+                      </div>
+                </div>
+              }
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <h1>Menu:</h1>
+        <div *ngFor="let day of days" class="day-container">
+            <h2>{{ day }}</h2>
+            <div *ngFor="let mealType of mealTypeObj" style="width: 21%;" class="example-container">
+                <h3>{{ mealType.title }}:</h3>
+                <div
+                    cdkDropList
+                    [cdkDropListData]="chosenMeals[day][mealType.key]"
+                    [cdkDropListConnectedTo]="[mealType.key] + 'List'"
+                    [id]="day + mealType.title + 'List'"
+                    class="example-list"
+                    (cdkDropListDropped)="dropMeal($event)">
+                    @for (meal of chosenMeals[day][mealType.key]; track meal) {
+                        <div class="" cdkDrag>
+                            <div draggable="true" class="">
+                                <h2 class="dynamic-font">{{meal?.name}}</h2>
+                            </div>
+                        </div>
+                        }
+                </div>
+            </div>
+            <br/>
+        </div>
+
+        <form class=""
+        method="POST"
+        [formGroup]="picForm" 
+        (ngSubmit)="saveMenu()"
+        >
+            Menu picture:<br><input type="file" (change)="onFileChanged($event)" accept="image/*"><br><br>
+        </form>
+
+        <button type="button" (click)="saveMenu()">Save</button>
+        
+        <div class="preview-container">
+            <div *ngIf="filePreview">
+                <img [src]="filePreview" alt="File Preview" height="300" width="200">
+            </div>
+        </div>
+        
+        <!-- <span matTooltip="Tooltip message">Hover over me</span> -->
+
+    </div>
+</div>
