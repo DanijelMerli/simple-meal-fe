@@ -161,7 +161,6 @@ export class MenuComponent implements OnInit {
       this.cardsCurrentDate = selectedValue;
       this.menu.forEach(daily => {
         if (daily.dateMenu == selectedValue) {
-          console.log(daily);
           this.cardsCurrentMeals = daily;
         }
       });

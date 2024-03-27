@@ -100,9 +100,6 @@ export class OrderComponent implements OnInit {
     this.orderDispl = new OrderDisplayItem(id, name, quantity, price, this.selectedMealType)
     this.orderDisplayItems.push(this.orderDispl);
 
-    console.log(this.orderDispl.id + " " + this.orderDispl.name + " " + this.orderDispl.price + " " + this.orderDispl.quantity,
-      + " " + this.orderDispl.totalPrice + " " + this.orderDispl.type + " type");
-
     this.selectedMealType = '';
   }
 

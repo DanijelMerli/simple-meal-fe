@@ -71,7 +71,6 @@ export class MealsFormComponent implements OnInit{
   }
 
   selectChange(selectedValue: any) {
-    console.log(selectedValue);
     this.mealType = selectedValue;
     if(selectedValue == 'Regular') {
      this.displayedForm = this.mealsFormRegular;
@@ -91,7 +90,9 @@ export class MealsFormComponent implements OnInit{
     };
     this.service.addRegularMeal(ret).subscribe(
       response => {
-        console.log('successful');
+        this.snackBar.open('Successful', undefined, {
+          duration: 2000,
+        });
       },
       error => {
         this.snackBar.open('An error occurred. Review all fields and try again', undefined, {
@@ -109,10 +110,11 @@ export class MealsFormComponent implements OnInit{
       price: this.mealsFormFit.get('price')?.value,
       shouldOrderEarly: this.mealsFormFit.get('shouldOrderEarly')?.value
     };
-    console.log(ret);
     this.service.addFitMeal(ret).subscribe(
       response => {
-        console.log('successful');
+        this.snackBar.open('Successful', undefined, {
+          duration: 2000,
+        });
       },
       error => {
         this.snackBar.open('An error occurred. Review all fields and try again', undefined, {
@@ -130,10 +132,11 @@ export class MealsFormComponent implements OnInit{
       extraType: this.mealsFormExtra.get('extraType')?.value,
       price: this.mealsFormExtra.get('price')?.value
     };
-    console.log(ret);
     this.service.addExtraMeal(ret).subscribe(
       response => {
-        console.log('successful');
+        this.snackBar.open('Successful', undefined, {
+          duration: 2000,
+        });
       },
       error => {
         this.snackBar.open('An error occurred. Review all fields and try again', undefined, {

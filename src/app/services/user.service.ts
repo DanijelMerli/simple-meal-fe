@@ -27,7 +27,6 @@ export class UserService {
   }
 
   isLoggedIn() {
-    // console.log(this.getToken());
     return !!this.getToken(); 
   }
 
