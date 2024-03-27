@@ -5,8 +5,8 @@ import {MatTableDataSource} from "@angular/material/table";
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-// import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +15,6 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 })
 export class MenuComponent implements OnInit{
 
-  // displayedColumns: string[] = ['description', 'price', 'size', 'type', 'special' /*, 'order'*/];
   displayedColumns: string[] = ['date', 'regularMeal', 'fitMeal', 'extra-soup', 'extra-dessert'];
   dataSource: MatTableDataSource<DailyMenuDTO> = new MatTableDataSource<DailyMenuDTO>();
   totalElements: number = 0;
@@ -32,10 +31,9 @@ export class MenuComponent implements OnInit{
   cardsCurrentDate: string = "";
   cardsCurrentMeals: any;
 
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private service: MenuService) {
+  constructor(private service: MenuService, private snackBar: MatSnackBar) {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth > 750) {
       this.cards = false;
@@ -59,7 +57,6 @@ export class MenuComponent implements OnInit{
     try {
       let result = await this.service.getMenu().toPromise();
       if (result != undefined) {
-        // console.log(result);
         let dailyMenuList = result.dailyMenu;
         dailyMenuList.sort((a: DailyMenuDTO, b: DailyMenuDTO) => this.convertDate(a.dateMenu).getTime() - this.convertDate(b.dateMenu).getTime());
         console.log(dailyMenuList);
@@ -69,25 +66,22 @@ export class MenuComponent implements OnInit{
         this.endDate = this.calculateEndDate(this.startDate);
         this.endDateStr = this.formatDate(this.endDate);
       } else {
-        console.log(":-(")
         this.menu = [];
       }
       if (!this.cards) {
         this.totalElements = this.menu.length;
         this.dataSource = new MatTableDataSource<DailyMenuDTO>(this.menu);
-        // this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        // console.log(this.menu)
         this.menu.forEach(element => {
-          // console.log(element.dateMenu);
           this.dates.push(element.dateMenu);
         });
-        // this.convertDate(this.startDateStr);
       }
     }
    catch (error) {
-    console.log(error)
+    this.snackBar.open('An error occurred', undefined, {
+      duration: 2000,
+    });
   }
   }
 
@@ -96,24 +90,18 @@ export class MenuComponent implements OnInit{
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.screenWidth = window.innerWidth;
-    // console.log(this.screenWidth)
     if (this.screenWidth > 750) {
       this.cards = false;
       this.totalElements = this.menu.length;
       this.dataSource = new MatTableDataSource<DailyMenuDTO>(this.menu);
-      // this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     } else {
       this.cards = true;
       this.dates.splice(0);
       this.menu.forEach(element => {
-        // console.log(element.dateMenu);
         this.dates.push(element.dateMenu);
       });
-
-      // this.convertDate(this.startDateStr);
     }
-    // 750
   }
 
   convertDate(dateStr: string) {
@@ -124,14 +112,6 @@ export class MenuComponent implements OnInit{
 
     let date = new Date(year, month, day);
     return date;
-
-    // console.log(this.formatDate(date));
-    // this.startDateStr = this.formatDate(date);
-    
-    // date.setDate(date.getDate() + 6);
-
-    // console.log(this.formatDate(date));
-    // this.endDateStr = this.formatDate(date);
   }
 
   calculateEndDate(date: Date) {
@@ -157,14 +137,11 @@ export class MenuComponent implements OnInit{
   }
 
   selectChange(selectedValue: any) {
-    // console.log(selectedValue);
     if (selectedValue == 'None') {
       this.cardsCurrentDate = "";
     } else {
       this.cardsCurrentDate = selectedValue;
       this.menu.forEach(daily => {
-        // console.log(daily.dateMenu);
-        // console.log(selectedValue);
         if (daily.dateMenu == selectedValue) {
           console.log(daily);
           this.cardsCurrentMeals = daily;
@@ -172,5 +149,4 @@ export class MenuComponent implements OnInit{
       });
     }
   }
-  
 }

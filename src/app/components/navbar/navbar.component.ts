@@ -21,10 +21,8 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         
-        // Gledamo na kojoj smo putanji i prikazujemo navbar u skladu sa tim
         const navigationEndEvent = event as NavigationEnd;
         const url = navigationEndEvent.url;
-        // console.log(url);
         if (url.includes('login')) {
           this.isLogin = true;
         } else {
@@ -42,7 +40,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     let token = this.userService.getToken();
-    // console.log(token);
     if (token == null || token == undefined) {
       this.isTokenPresent = false;
     } else {
@@ -52,12 +49,6 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.userService.clearToken();
-    // this.router.navigate(['']).then(()=>{location.reload();});
     this.isTokenPresent = false;
   }
-
-  // login() {
-  //   // this.jwtService.setToken("blablabla");
-  //   this.isTokenPresent = true;
-  // }
 }

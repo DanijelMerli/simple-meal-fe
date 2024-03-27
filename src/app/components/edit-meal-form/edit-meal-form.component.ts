@@ -4,13 +4,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { CreateExtraDTO, CreateFitMealDTO, CreateRegularMealDTO, ExtraDTO, FitMealDTO, RegularMealDTO } from '../../dtos/MenuDTO';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-meal-form',
   templateUrl: './edit-meal-form.component.html',
   styleUrl: './edit-meal-form.component.css'
 })
-export class EditMealFormComponent implements OnInit{
+export class EditMealFormComponent implements OnInit {
 
   dataSourceRegular: MatTableDataSource<RegularMealDTO> = new MatTableDataSource<RegularMealDTO>();
   dataSourceFit: MatTableDataSource<FitMealDTO> = new MatTableDataSource<FitMealDTO>();
@@ -21,74 +22,73 @@ export class EditMealFormComponent implements OnInit{
   mealsFormExtra!: FormGroup;
   selectForm !: FormGroup;
   mealTypes = ['Regular', 'Fit', 'Extra'];
-  shouldGetData: boolean=false;
+  shouldGetData: boolean = false;
   mealType = "";
   displayedForm !: FormGroup;
 
-  constructor(private service:MealService, @Inject(MAT_DIALOG_DATA) public data: any, public matDialogRef: MatDialogRef<EditMealFormComponent>) {}
+  constructor(private service: MealService, @Inject(MAT_DIALOG_DATA) public data: any, public matDialogRef: MatDialogRef<EditMealFormComponent>, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.shouldGetData = false;
-    console.log(this.data);
     this.mealType = this.data.mealType;
-    console.log(this.data.element.shouldOrderEarly);
     let shouldOrder;
     if (this.data.element.shouldOrderEarly) {
-      shouldOrder='true';
+      shouldOrder = 'true';
     } else {
-      shouldOrder='false';
+      shouldOrder = 'false';
     }
-    if(this.mealType=='Regular') {
-    this.mealsFormRegular = new FormGroup( {
-      name: new FormControl(this.data.element.name, Validators.required),
-      description:  new FormControl(this.data.element.description, Validators.required),
-      smallPrice:  new FormControl(this.data.element.smallPrice, Validators.required),
-      largePrice:  new FormControl(this.data.element.largePrice, Validators.required)
-    });} else if(this.mealType=='Fit') {
-    this.mealsFormFit = new FormGroup ({
-      name: new FormControl(this.data.element.name, Validators.required),
-      description:  new FormControl(this.data.element.description, Validators.required),
-      price:  new FormControl(this.data.element.price, Validators.required),
-      shouldOrderEarly: new FormControl(shouldOrder, Validators.required)
-    }); } else if(this.mealType == 'Extra') {
-    this.mealsFormExtra = new FormGroup ({
-      name: new FormControl(this.data.element.name, Validators.required),
-      description:  new FormControl(this.data.element.description, Validators.required),
-      extraType:  new FormControl(this.data.element.extraType, Validators.required),
-      price: new FormControl(this.data.element.price, Validators.required)
-    });}
+    if (this.mealType == 'Regular') {
+      this.mealsFormRegular = new FormGroup({
+        name: new FormControl(this.data.element.name, Validators.required),
+        description: new FormControl(this.data.element.description, Validators.required),
+        smallPrice: new FormControl(this.data.element.smallPrice, Validators.required),
+        largePrice: new FormControl(this.data.element.largePrice, Validators.required)
+      });
+    } else if (this.mealType == 'Fit') {
+      this.mealsFormFit = new FormGroup({
+        name: new FormControl(this.data.element.name, Validators.required),
+        description: new FormControl(this.data.element.description, Validators.required),
+        price: new FormControl(this.data.element.price, Validators.required),
+        shouldOrderEarly: new FormControl(shouldOrder, Validators.required)
+      });
+    } else if (this.mealType == 'Extra') {
+      this.mealsFormExtra = new FormGroup({
+        name: new FormControl(this.data.element.name, Validators.required),
+        description: new FormControl(this.data.element.description, Validators.required),
+        extraType: new FormControl(this.data.element.extraType, Validators.required),
+        price: new FormControl(this.data.element.price, Validators.required)
+      });
+    }
   }
 
-  
+
 
 
   editFormRegular() {
     this.shouldGetData = true;
-    let ret:CreateRegularMealDTO = {
+    let ret: CreateRegularMealDTO = {
       name: this.mealsFormRegular.get('name')?.value,
       description: this.mealsFormRegular.get('description')?.value,
       smallPrice: this.mealsFormRegular.get('smallPrice')?.value,
       largePrice: this.mealsFormRegular.get('largePrice')?.value
     };
-    
-    console.log(ret);
     this.service.editRegularMeal(this.data.element.id, ret).subscribe(
       response => {
         console.log('successful');
       },
       error => {
-
-          console.error('An error occurred:', error);
-          alert("An error occurred:");
-        }
-    );    
+        this.snackBar.open('An error occurred:', undefined, {
+          duration: 2000,
+        });
+      }
+    );
     this.matDialogRef.close(ret);
   }
 
 
   editFormFit() {
     this.shouldGetData = true;
-    let ret:CreateFitMealDTO = {
+    let ret: CreateFitMealDTO = {
       name: this.mealsFormFit.get('name')?.value,
       description: this.mealsFormFit.get('description')?.value,
       price: this.mealsFormFit.get('price')?.value,
@@ -100,34 +100,35 @@ export class EditMealFormComponent implements OnInit{
         console.log('successful');
       },
       error => {
-
-          console.error('An error occurred:', error);
-          alert("An error occurred:");
-        }
-    ); 
-    this.matDialogRef.close(ret);   
+        this.snackBar.open('An error occurred:', undefined, {
+          duration: 2000,
+        });
+      }
+    );
+    this.matDialogRef.close(ret);
 
   }
 
   editFormExtra() {
     this.shouldGetData = true;
-    let ret:CreateExtraDTO = {
+    let ret: CreateExtraDTO = {
       name: this.mealsFormExtra.get('name')?.value,
       description: this.mealsFormExtra.get('description')?.value,
       extraType: this.mealsFormExtra.get('extraType')?.value,
       price: this.mealsFormExtra.get('price')?.value
     };
     console.log(ret);
-    this.service.editExtra(this.data.element.id,ret).subscribe(
+    this.service.editExtra(this.data.element.id, ret).subscribe(
       response => {
         console.log('successful');
       },
       error => {
-          console.error('An error occurred:', error);
-          alert("An error occurred:");
-        }
-    ); 
-    this.matDialogRef.close(ret);   
+        this.snackBar.open('An error occurred:', undefined, {
+          duration: 2000,
+        });
+      }
+    );
+    this.matDialogRef.close(ret);
 
   }
 
@@ -145,6 +146,4 @@ export class EditMealFormComponent implements OnInit{
     const formControl = this.mealsFormExtra.get(field);
     return formControl?.invalid && formControl?.touched;
   }
-
-
 }

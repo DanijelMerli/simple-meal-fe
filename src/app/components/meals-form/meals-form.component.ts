@@ -4,6 +4,7 @@ import { CreateExtraDTO, CreateFitMealDTO, CreateRegularMealDTO, ExtraDTO, FitMe
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MealService } from '../../services/meal.service';
 import { MatDialogRef} from "@angular/material/dialog";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-meals-form',
@@ -24,7 +25,7 @@ export class MealsFormComponent implements OnInit{
   mealType = "";
   displayedForm !: FormGroup;
 
-  constructor(private service : MealService, public matDialogRef: MatDialogRef<MealsFormComponent>) {}
+  constructor(private service : MealService, public matDialogRef: MatDialogRef<MealsFormComponent>, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.shouldGetData = false;
@@ -61,10 +62,11 @@ export class MealsFormComponent implements OnInit{
       this.dataSourceRegular = new MatTableDataSource<RegularMealDTO>(result.regularMeals);
       this.dataSourceFit = new MatTableDataSource<FitMealDTO>(result.fitMeals);
       this.dataSourceExtra = new MatTableDataSource<ExtraDTO>(result.extras);
-      console.log(result);
     }
    catch (error) {
-    console.log(error)
+    this.snackBar.open('An error occurred', undefined, {
+      duration: 2000,
+    });
   }
   }
 
@@ -87,16 +89,14 @@ export class MealsFormComponent implements OnInit{
       smallPrice: this.mealsFormRegular.get('smallPrice')?.value,
       largePrice: this.mealsFormRegular.get('largePrice')?.value
     };
-    
-    console.log(ret);
     this.service.addRegularMeal(ret).subscribe(
       response => {
         console.log('successful');
       },
       error => {
-
-          console.error('An error occurred:', error);
-          alert("An error occurred:");
+        this.snackBar.open('An error occurred. Review all fields and try again', undefined, {
+          duration: 2000,
+        });
         }
     );    
     this.matDialogRef.close(ret);
@@ -115,9 +115,9 @@ export class MealsFormComponent implements OnInit{
         console.log('successful');
       },
       error => {
-
-          console.error('An error occurred:', error);
-          alert("An error occurred:");
+        this.snackBar.open('An error occurred. Review all fields and try again', undefined, {
+          duration: 2000,
+        });
         }
     ); 
     this.matDialogRef.close(ret);   
@@ -136,8 +136,9 @@ export class MealsFormComponent implements OnInit{
         console.log('successful');
       },
       error => {
-          console.error('An error occurred:', error);
-          alert("An error occurred:");
+        this.snackBar.open('An error occurred. Review all fields and try again', undefined, {
+          duration: 2000,
+        });
         }
     ); 
     this.matDialogRef.close(ret);   
