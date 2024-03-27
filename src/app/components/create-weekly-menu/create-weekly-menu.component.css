@@ -13,6 +13,7 @@
     margin-right: 0;
     overflow-y: auto;
     max-height: 500px;
+    text-align: center;
 }
 
 .card-body {
@@ -109,7 +110,9 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 90%;
+  margin-left: 70%;
+  margin-bottom: 10px;
+  width: 20%;
 }
 
 button:hover {
@@ -137,10 +140,14 @@ img {
 }
 
 .preview-container {
-  width: 400;
+  width: 400px;
   margin-left: 20px; 
 }
 
 .preview-container img {
   height: auto;
+}
+
+span {
+  color: red;
 }

@@ -53,6 +53,8 @@ export class CreateWeeklyMenuComponent implements OnInit {
 
   action!: string;
 
+  errors: { [day: string]: string } = {};
+
   constructor(private mealService : MealService, private route: ActivatedRoute, private menuService: MenuService) {
     let currentMenu;
     this.route.queryParams.subscribe(params => {
@@ -94,6 +96,12 @@ export class CreateWeeklyMenuComponent implements OnInit {
     this.picForm = new FormGroup({
       }
     );
+
+    this.errors["Monday"] = "Error message for Monday";
+    this.errors["Tuesday"] = "Error message for Tuesday";
+    this.errors["Wednesday"] = "Error message for Wednesday";
+    this.errors["Thursday"] = "Error message for Thursday";
+    this.errors["Friday"] = "Error message for Friday";
   }
 
   selectChange(selectedValue: any) {
