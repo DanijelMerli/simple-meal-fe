@@ -30,4 +30,8 @@ export class MenuService {
   uploadFile(formData: FormData, id: number): Observable<any> {
     return this.http.post(`${environment.apiUrl}meals/uploadFile/${id}`, formData);
   }
+
+  getImage(id: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}meals/image/${id}`, { responseType: 'blob' });
+  }
 }

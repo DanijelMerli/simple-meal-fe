@@ -38,6 +38,7 @@ import { NotFoundPageComponent } from './components/pages/not-found-page/not-fou
 import { InvalidTokenInterceptor } from './components/shared/invalidTokenInterceptor';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { ChecklistComponent } from './components/checklist/checklist.component';
+import { MenuImageDialogComponent } from './components/menu-image-dialog/menu-image-dialog.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { ChecklistComponent } from './components/checklist/checklist.component';
     AccessDeniedPageComponent,
     NotFoundPageComponent,
     ChecklistComponent,
+    MenuImageDialogComponent,
 
   ],
   imports: [

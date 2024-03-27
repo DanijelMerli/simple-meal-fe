@@ -5,8 +5,10 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { MenuImageDialogComponent } from '../menu-image-dialog/menu-image-dialog.component';
 
 
 @Component({
@@ -33,10 +35,13 @@ export class MenuComponent implements OnInit {
   cardsCurrentMeals: any;
   week!: string;
   menuExists: boolean = true;
+  weeklyId!: number;
+
+  imageToShow: any;
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private service: MenuService, private datePipe: DatePipe, private route: ActivatedRoute) {
+  constructor(private service: MenuService, private datePipe: DatePipe, private route: ActivatedRoute, private snackBar: MatSnackBar, private dialog: MatDialog) {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth > 750) {
       this.cards = false;
@@ -65,10 +70,12 @@ export class MenuComponent implements OnInit {
       let result;
       if (this.week == "next") {
         result = await this.service.getNextMenu().toPromise();
+
       } else {
         result = await this.service.getMenu().toPromise();
       }
       if (result != undefined) {
+        this.weeklyId = result.idWeeklyMenu;
         this.menuExists = true;
         let dailyMenuList = result.dailyMenu;
         dailyMenuList.sort((a: DailyMenuDTO, b: DailyMenuDTO) => this.convertDate(a.dateMenu).getTime() - this.convertDate(b.dateMenu).getTime());
@@ -165,6 +172,12 @@ export class MenuComponent implements OnInit {
     const dateParts = dateString.split('.');
     const formattedDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
     return this.datePipe.transform(formattedDate, 'EEEE dd.MM.yyyy.');
+  }
+
+  seeImage() {
+    const dialogRef = this.dialog.open(MenuImageDialogComponent, {
+      data: { id: this.weeklyId },
+    });
   }
 
 }

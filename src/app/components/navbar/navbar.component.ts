@@ -53,7 +53,6 @@ export class NavbarComponent implements OnInit {
     this.orderService.getMeals(true).subscribe(
       (result) => {
         let menu: DailyMenuDTO = result;
-        console.log(menu)
         this.showOrder = !(menu.regular == null && menu.fit == null && menu.soup == null && menu.dessert == null);
       },
       (error) => {
