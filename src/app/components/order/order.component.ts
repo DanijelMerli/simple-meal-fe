@@ -129,18 +129,19 @@ export class OrderComponent implements OnInit {
       }
   }
 
-   
-   
-    
-  
+ 
 
   submitOrder() {
     this.orderService.placeOrder(this.isToday).subscribe(response => {
-      this.submitMsg = "Your order was successfully submitted";
+      this.snackBar.open('  Your order was successfully submitted', undefined, {
+        duration: 2000,
+      });
     }, error => {
-      this.submitMsg = "Error: " + error.message;
+      this.snackBar.open('  Your order was NOT  successfully submitted', undefined, {
+        duration: 2000,
+      })
     
- 
+
  });
     this.orderDisplayItems=[];
     
@@ -168,17 +169,23 @@ export class OrderComponent implements OnInit {
       return this.orderService.isHoliday().subscribe((response: boolean) => {
         this.isHoliday = response;
       },
-      (error) => {
-        console.error("Error fetching weekend status:", error);
-      });
+      error => {
+        this.snackBar.open('Error fetching menu', undefined, {
+          duration: 2000,
+        });
+      }
+     
+      );
   }
 
   checkWeekend() {
     return this.orderService.isWeekend().subscribe((response: boolean) => {
       this.isWeekend = response;
     },
-    (error) => {
-      console.error("Error fetching weekend status:", error);
+    error => {
+      this.snackBar.open('Error fetching menu', undefined, {
+        duration: 2000,
+      });
     });
 
   }
@@ -187,8 +194,10 @@ export class OrderComponent implements OnInit {
     return this.orderService.isHolidayTomorrow().subscribe((response: boolean) => {
       this.isHolidayTomorrow = response;
     },
-    (error) => {
-      console.error("Error fetching weekend status:", error);
+    error => {
+      this.snackBar.open('Error fetching menu', undefined, {
+        duration: 2000,
+      });
     });
 }
 
@@ -196,8 +205,10 @@ checkWeekendTomorrow() {
   return this.orderService.isWeekendTomorrow().subscribe((response: boolean) => {
     this.isWeekendTomorrow = response;
   },
-  (error) => {
-    console.error("Error fetching weekend status:", error);
+  error => {
+    this.snackBar.open('Error fetching menu', undefined, {
+      duration: 2000,
+    });
   });;
 
 }

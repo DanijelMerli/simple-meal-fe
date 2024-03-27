@@ -4,8 +4,6 @@ import {WeeklyMenuDTO, DailyMenuDTO } from '../../dtos/MenuDTO';
 import {MatTableDataSource} from "@angular/material/table";
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
-import {FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -13,8 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.css',
-  providers: [DatePipe]
+  styleUrl: './menu.component.css'
 })
 export class MenuComponent implements OnInit{
 
@@ -33,11 +30,9 @@ export class MenuComponent implements OnInit{
   dates: any[] = ['None'];
   cardsCurrentDate: string = "";
   cardsCurrentMeals: any;
-  week!: string;
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private service: MenuService, private datePipe: DatePipe, private route: ActivatedRoute) {
   constructor(private service: MenuService, private snackBar: MatSnackBar) {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth > 750) {
@@ -45,10 +40,6 @@ export class MenuComponent implements OnInit{
     } else {
       this.cards = true;
     }
-
-    this.route.queryParams.subscribe(params => {
-      this.week = params['week'];
-    });
   }
 
   ngOnInit(): void {
@@ -64,15 +55,11 @@ export class MenuComponent implements OnInit{
 
   async getAll(): Promise<void> {
     try {
-      let result;
-      if (this.week == "next") {
-        result = await this.service.getNextMenu().toPromise();
-      } else {
-        result = await this.service.getMenu().toPromise();
-      }
+      let result = await this.service.getMenu().toPromise();
       if (result != undefined) {
         let dailyMenuList = result.dailyMenu;
         dailyMenuList.sort((a: DailyMenuDTO, b: DailyMenuDTO) => this.convertDate(a.dateMenu).getTime() - this.convertDate(b.dateMenu).getTime());
+        console.log(dailyMenuList);
         this.menu = dailyMenuList;
         this.startDateStr = result.startDate;
         this.startDate = this.convertDate(this.startDateStr);
@@ -87,7 +74,6 @@ export class MenuComponent implements OnInit{
         this.dataSource.sort = this.sort;
       } else {
         this.menu.forEach(element => {
-        this.dates.push(element.dateMenu);
           this.dates.push(element.dateMenu);
         });
       }
@@ -134,20 +120,20 @@ export class MenuComponent implements OnInit{
   }
 
   formatDate(date: Date) {
-    let day = date.getDate();
-    let dayStr = day.toString();
-    let month = date.getMonth() + 1;
-    let monthStr = month.toString();
-    let year = date.getFullYear();
+      let day = date.getDate();
+      let dayStr = day.toString();
+      let month = date.getMonth() + 1;
+      let monthStr = month.toString();
+      let year = date.getFullYear();
 
-    if (day < 10) {
-      dayStr = '0' + day.toString();
-    }
-    if (month < 10) {
-      monthStr = '0' + month;
-    }
-
-    return dayStr + '.' + monthStr + '.' + year + '.';
+      if (day < 10) {
+        dayStr = '0' + day.toString();
+      }
+      if (month < 10) {
+        monthStr = '0' + month;
+      }
+  
+      return dayStr + '.' + monthStr + '.' + year + '.';
   }
 
   selectChange(selectedValue: any) {
@@ -163,11 +149,4 @@ export class MenuComponent implements OnInit{
       });
     }
   }
-
-  formatDateMenu(dateString: string) {
-    const dateParts = dateString.split('.');
-    const formattedDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
-    return this.datePipe.transform(formattedDate, 'EEEE dd.MM.yyyy.');
-  }
-  
 }
