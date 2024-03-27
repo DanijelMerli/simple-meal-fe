@@ -22,10 +22,15 @@ export class OrderComponent implements OnInit{
   price: number = 0;
   date: Date = new Date();
   orderDisplayItems: OrderDisplayItem[]=[];
-  displayColumns: string[] = ['id','name', 'quantity','totalPrice','remove'];
+  //displayColumns: string[] = ['id','name', 'quantity','totalPrice','remove'];
   orderDispl: OrderDisplayItem | undefined;
   isToday:boolean = true;
   submitMsg: string='';
+  isWeekend: boolean = false;
+  isWeekendTomorrow: boolean = false;
+  isHoliday: boolean = false;
+  isHolidayTomorrow: boolean = false;
+  
   
   
 
@@ -54,7 +59,10 @@ export class OrderComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    
+    this.checkWeekend();
+    this.checkWeekendTomorrow();
+    this.checkHoliday();
+    this.checkHolidayTomorrow();
     
     this.route.params.subscribe(params => {
       const day = params['day'];
@@ -94,30 +102,44 @@ export class OrderComponent implements OnInit{
     
     const quantity = this.arrayForms[orderNum].get("quantity")?.value;
     this.orderService.saveOrderItem(id,quantity,this.selectedMealType);
-    if (priceLarge!==0) 
+    if (isNotReg==0 && this.selectedMealType=="LARGE")
       price=priceLarge;
     
     if (isNotReg==0) {
       name = name + " " + this.selectedMealType;
     }
-
-    this.orderDispl = new OrderDisplayItem(id, name, quantity,price,this.selectedMealType)
+    if (!isNotReg) {
+      const foundItemReg = this.orderDisplayItems.find(el => el.id === id && el.type === this.selectedMealType);
+      if (foundItemReg) {
+        foundItemReg.quantity=foundItemReg.quantity+quantity;
+        foundItemReg.totalPrice = foundItemReg.quantity * price;
+    
+      } else {
+      this.orderDispl = new OrderDisplayItem(id, name, quantity,price,this.selectedMealType);
+      this.orderDisplayItems.push(this.orderDispl);
+    }
+  } else {
+    const foundItem = this.orderDisplayItems.find(el => el.id === id);
+        if (foundItem) {
+          foundItem.quantity=foundItem.quantity+quantity;
+          foundItem.totalPrice =  foundItem.quantity * price;
+        } else {
+    this.orderDispl = new OrderDisplayItem(id, name, quantity,price,this.selectedMealType);
     this.orderDisplayItems.push(this.orderDispl);
+        }
+      }
+  }
 
-    console.log(this.orderDispl.id + " " + this.orderDispl.name + " " + this.orderDispl.price + " " + this.orderDispl.quantity,
-     + " " + this.orderDispl.totalPrice+ " " + this.orderDispl.type + " type" );
-
-    this.selectedMealType='';
+   
    
     
-  }
+  
 
   submitOrder() {
     this.orderService.placeOrder(this.isToday).subscribe(response => {
       this.submitMsg = "Your order was successfully submitted";
     }, error => {
-      this.submitMsg = "Error: " + error.status;
-      console.error('Error occurred in HTTP request:', error);
+      this.submitMsg = "Error: " + error.message;
     
  
  });
@@ -150,10 +172,44 @@ export class OrderComponent implements OnInit{
         return false;
   }
 
-/*
-  
-  gotoTop() {
-    window.scroll(0,0)
+  checkHoliday() {
+      return this.orderService.isHoliday().subscribe((response: boolean) => {
+        this.isHoliday = response;
+      },
+      (error) => {
+        console.error("Error fetching weekend status:", error);
+      });
   }
-*/
+
+  checkWeekend() {
+    return this.orderService.isWeekend().subscribe((response: boolean) => {
+      this.isWeekend = response;
+    },
+    (error) => {
+      console.error("Error fetching weekend status:", error);
+    });
+
+  }
+
+  checkHolidayTomorrow() {
+    return this.orderService.isHolidayTomorrow().subscribe((response: boolean) => {
+      this.isHolidayTomorrow = response;
+    },
+    (error) => {
+      console.error("Error fetching weekend status:", error);
+    });
+}
+
+checkWeekendTomorrow() {
+  return this.orderService.isWeekendTomorrow().subscribe((response: boolean) => {
+    this.isWeekendTomorrow = response;
+  },
+  (error) => {
+    console.error("Error fetching weekend status:", error);
+  });;
+
+}
+
+
+
 }
