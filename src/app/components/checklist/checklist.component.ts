@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChecksListUserDTO, ChosenOneDTO } from '../../dtos/chosenOneDTO';
 import { ChecklistService } from '../../services/checklist.service';
 import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-checklist',
@@ -12,7 +13,7 @@ export class ChecklistComponent implements OnInit {
   ordersData: ChosenOneDTO | null = null;
   errorMessage: string | null = null;
 
-  constructor(private chesklistService: ChecklistService, private http: HttpClient) { }
+  constructor(private chesklistService: ChecklistService, private http: HttpClient, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.chesklistService.getTodayOrders()
@@ -40,7 +41,9 @@ export class ChecklistComponent implements OnInit {
           user.paid = true;
         },
         (error) => {
-          console.error('Error marking order as paid:', error);
+          this.snackBar.open('Error marking order as paid', undefined, {
+            duration: 2000,
+          });
         }
       );
     } else {

@@ -74,7 +74,9 @@ export class EditMealFormComponent implements OnInit {
     };
     this.service.editRegularMeal(this.data.element.id, ret).subscribe(
       response => {
-        console.log('successful');
+        this.snackBar.open('Successful', undefined, {
+          duration: 2000,
+        });
       },
       error => {
         this.snackBar.open('An error occurred:', undefined, {
@@ -94,10 +96,11 @@ export class EditMealFormComponent implements OnInit {
       price: this.mealsFormFit.get('price')?.value,
       shouldOrderEarly: this.mealsFormFit.get('shouldOrderEarly')?.value
     };
-    console.log(ret);
     this.service.editFitMeal(this.data.element.id, ret).subscribe(
       response => {
-        console.log('successful');
+        this.snackBar.open('Successful', undefined, {
+          duration: 2000,
+        });
       },
       error => {
         this.snackBar.open('An error occurred:', undefined, {
@@ -117,10 +120,11 @@ export class EditMealFormComponent implements OnInit {
       extraType: this.mealsFormExtra.get('extraType')?.value,
       price: this.mealsFormExtra.get('price')?.value
     };
-    console.log(ret);
     this.service.editExtra(this.data.element.id, ret).subscribe(
       response => {
-        console.log('successful');
+        this.snackBar.open('Successful', undefined, {
+          duration: 2000,
+        });
       },
       error => {
         this.snackBar.open('An error occurred:', undefined, {
