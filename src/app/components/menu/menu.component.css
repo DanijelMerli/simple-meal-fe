@@ -1,53 +1,50 @@
-mat-paginator{
-    font-family: "Bodoni Moda";
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    shape-outside: none;
-  }
+mat-paginator {
+  font-family: "Bodoni Moda";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  shape-outside: none;
+}
 
-  .table-container {
-    /* background: #fedc1d; */
-    border-radius: 0.7rem;
-    color: #000000;
-    padding: 1rem;
-    width: fit-content;
-    max-width: 80%;
-    /* margin-left: 20%; */
-    margin: auto;
-    margin-top: 20px;
-    align-items: center;
-    text-align: center;
-  }
+.table-container {
+  border-radius: 0.7rem;
+  color: #000000;
+  padding: 1rem;
+  width: fit-content;
+  max-width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  align-items: center;
+  text-align: center;
+}
 
 
-  table {
-    position: relative;
-  }
-  
-  .yellowBtn{
-    width: 7rem;
-    height: 2rem;
-    background-color: yellow;
-    border-radius: 10%;
-    border-style: none;
-    margin-left: 0;
-  }
+table {
+  position: relative;
+}
 
-  .mat-table {
-    width: 100%;
+.yellowBtn {
+  width: 7rem;
+  height: 2rem;
+  background-color: yellow;
+  border-radius: 10%;
+  border-style: none;
+  margin-left: 0;
+}
+
+.mat-table {
+  width: 100%;
 }
 
 
 td {
-    align-items: center;
-    text-align: center;
+  align-items: center;
+  text-align: center;
 }
 
 th {
-    align-items: center;
-    text-align: center;
-    /* background-color: #fedc1d; */
+  align-items: center;
+  text-align: center;
 }
 
 .header {
@@ -105,5 +102,3 @@ h2 {
   width: 18rem;
   margin-bottom: 10px;
 }
-
-

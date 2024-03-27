@@ -1,37 +1,28 @@
-<!-- <p>
-    <mat-toolbar style="background: yellow;">
-      <button [routerLink]="'/home'" mat-icon-button>
-        <mat-icon>fastfood</mat-icon>
-      </button>
-      <button class="big" [routerLink]="'/home'" mat-button>Simple Meal</button>
-      <span class="spacer"></span>
-      <button [routerLink]="'/register'" *ngIf="!isTokenPresent && (isHome || isLogin)" mat-raised-button>Sign up</button>
-      <button class="btns" (click)="login()" [routerLink]="'/login'" *ngIf="!isTokenPresent && (isHome || !isLogin)" mat-stroked-button>Log in</button>
-      <button (click)="logout()" [routerLink]="'/home'" *ngIf="isTokenPresent" mat-button>Log out</button>
-    </mat-toolbar>
-</p> -->
-
-
 <mat-toolbar class="tool-bar">
-    <div fxShow="true" fxHide.gt-sm="true">
+    <!-- <div fxShow="true" fxHide.gt-sm="true">
         <button mat-icon-button (click)="sidenav.toggle()">
             <mat-icon>menu</mat-icon>
         </button>
-    </div>
+    </div> -->
 
     <a mat-button routerLink="/">
         <span>Simple Meal</span>
         <span class="space"><mat-icon>fastfood</mat-icon></span>
     </a>
 
-    <div fxShow="true" fxHide.lt-sm="true">
-        <mat-select placeholder="Menu Options" (selectionChange)="navigateToSelectedDay($event)">
-            <mat-option value="create-this"><a>Create menu for this week</a></mat-option><hr>
-            <mat-option value="create-next"><a>Create menu for next week</a></mat-option><hr>
+    <a *ngIf="showOrder" [routerLink]="'/order'" mat-button>Order</a>
+
+    <a *ngIf="isChosenOne" [routerLink]="'/checklist'" mat-button>Checklist</a>
+
+    <div *ngIf="isTokenPresent " fxShow="true" fxHide.lt-sm="true" style="margin-right: 20px;">
+        <mat-select placeholder="Weekly Menu Options" (selectionChange)="navigateToSelectedDay($event)">
+            <mat-option *ngIf="isAdmin" value="create-this"><a>Create menu for this week</a></mat-option><hr *ngIf="isAdmin">
+            <mat-option *ngIf="isAdmin" value="create-next"><a>Create menu for next week</a></mat-option><hr *ngIf="isAdmin">
             <mat-option value="view-this"><a>View menu for this week</a></mat-option><hr>
-            <mat-option value="view-next"><a>View menu for next week</a></mat-option><hr>
-            <mat-option value="edit-this"><a>Edit menu for this week</a></mat-option><hr>
-            <mat-option value="edit-next"><a>Edit menu for next week</a></mat-option>
+            <mat-option value="view-next"><a>View menu for next week</a></mat-option><hr *ngIf="isAdmin">
+            <mat-option *ngIf="isAdmin" value="edit-this"><a>Edit menu for this week</a></mat-option><hr *ngIf="isAdmin">
+            <mat-option *ngIf="isAdmin" value="edit-next"><a>Edit menu for next week</a></mat-option><hr *ngIf="isAdmin">
+            <mat-option *ngIf="isAdmin" value="meals"><a>Meal CRUD</a></mat-option>
         </mat-select>
     </div>
 
@@ -44,7 +35,7 @@
 
 </mat-toolbar>
 
-<mat-sidenav-container fxFlexFill>
+<!-- <mat-sidenav-container fxFlexFill>
     <mat-sidenav #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true">
         <div fxLayout="column">
             <a (click)="logout()" [routerLink]="'/home'" *ngIf="isTokenPresent" mat-button>Log out</a>
@@ -54,7 +45,7 @@
     </mat-sidenav>
 
     <router-outlet></router-outlet>
-</mat-sidenav-container>
+</mat-sidenav-container> -->
       
 
 

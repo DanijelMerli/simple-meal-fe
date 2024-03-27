@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomePageComponent } from './components/home-page/home-page.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { LoginComponent } from './components/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -15,24 +14,21 @@ import { AccessDeniedPageComponent } from './components/pages/access-denied-page
 import { ChecklistComponent } from './components/checklist/checklist.component';
 
 const routes: Routes = [
-  {path: "home", component: MenuComponent},
-  {path: "", component: MenuComponent},
-  {path: "login", component: LoginComponent},
-  {path: "register", component: RegistrationComponent},
-  {path: "menu", component: MenuComponent, canActivate: [AuthGuard]},
-  {path: "meals", component: MealsComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
-  {path: "add-meals", component: MealsFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
-  {path: "edit-meals", component: EditMealFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
-  {path: 'access-denied', component: AccessDeniedPageComponent },
-  {path: 'checklist', component: ChecklistComponent},
-  {path: 'order', component: OrderComponent, canActivate: [AuthGuard]},
-  {path: 'order/:day', component: OrderComponent, canActivate: [AuthGuard]},
-  {path: '', redirectTo: '/order/today', pathMatch: 'full'},
-  // {path: "meals", component: MealsComponent},
-  // {path: "add-meals", component: MealsFormComponent},
-  // {path: "edit-meals", component: EditMealFormComponent},
-  {path: "weekly-menu", component: CreateWeeklyMenuComponent},
-  {path: '**', component: NotFoundPageComponent},
+  { path: "home", component: MenuComponent },
+  { path: "", component: MenuComponent },
+  { path: "login", component: LoginComponent },
+  { path: "register", component: RegistrationComponent },
+  { path: "menu", component: MenuComponent},
+  { path: "meals", component: MealsComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] } },
+  { path: "add-meals", component: MealsFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] } },
+  { path: "edit-meals", component: EditMealFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] } },
+  { path: 'access-denied', component: AccessDeniedPageComponent },
+  { path: 'checklist', component: ChecklistComponent },
+  { path: 'order', component: OrderComponent },
+  { path: 'order/:day', component: OrderComponent },
+  { path: '', redirectTo: '/order/today', pathMatch: 'full' },
+  { path: "weekly-menu", component: CreateWeeklyMenuComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] } },
+  { path: '**', component: NotFoundPageComponent },
 ];
 
 @NgModule({
