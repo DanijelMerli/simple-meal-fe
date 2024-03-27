@@ -3,7 +3,7 @@
     [formGroup]="selectForm" 
     >
     <div class="container">
-        <div class="left">
+        <div>
             <label style="margin-right: 10px;">Choose meal type:</label>
             <select #issuer class="element" name="mealType" formControlName="mealType">
                 <option class="option" *ngFor="let option of mealTypes;let i = 'index';" [value]="option">{{option}}</option>

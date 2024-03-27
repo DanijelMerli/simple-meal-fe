@@ -164,7 +164,7 @@ export class CreateWeeklyMenuComponent implements OnInit {
       let fit: FitMealDTO = meals['fit']?.[meals['fit']?.length - 1];
       let soup: ExtraDTO = meals['soup']?.[meals['soup']?.length - 1];
       let dessert: ExtraDTO = meals['dessert']?.[meals['dessert']?.length - 1];
-      
+
       if ((regular && !fit) || (!regular && fit)) {
         this.errors[day] += "Regular and fit meals always go together! ";
         hasErrors = true;
@@ -173,14 +173,6 @@ export class CreateWeeklyMenuComponent implements OnInit {
       if ((!regular || !fit) && (soup || dessert)) {
         this.errors[day] += "Extras have to have regular and fit meals with them! ";
         hasErrors = true;
-      } 
-
-      if (hasErrors) {
-        this.snackBar.open('Please look for any possible errors that occurred', undefined, {
-          duration: 5000,
-        });
-        hasErrors = false;
-        return;
       } 
       
       console.log("validiran");
@@ -195,6 +187,14 @@ export class CreateWeeklyMenuComponent implements OnInit {
       dailyMenus.push(newDailyMenu);
     }
 
+    if (hasErrors) {
+      this.snackBar.open('Please look for any possible errors that occurred', undefined, {
+        duration: 5000,
+      });
+      hasErrors = false;
+      return;
+    } 
+
     let newWeeklyMenu: WeeklyMenuAdminDTO = {
       dailyMenus: dailyMenus,
       startDate: this.weekStart
@@ -206,6 +206,9 @@ export class CreateWeeklyMenuComponent implements OnInit {
         next: (result: any) => {
           console.log(result);
           console.log(result.id);
+          this.snackBar.open('New menu created!', undefined, {
+            duration: 3000,
+          });
           this.uploadFile(result.id);
         },
         error: (error: any) => {
@@ -215,6 +218,9 @@ export class CreateWeeklyMenuComponent implements OnInit {
     } else if (this.action == 'edit') {
       this.menuService.updateWeeklyMenu(newWeeklyMenu).subscribe({
         next: (result: any) => {
+          this.snackBar.open('Menu changed successfully!', undefined, {
+            duration: 3000,
+          });
           this.uploadFile(this.currentMenuId);
         },
         error: (error: any) => {
@@ -311,6 +317,9 @@ export class CreateWeeklyMenuComponent implements OnInit {
       this.menuService.uploadFile(formData, id).subscribe({
         next: (result: any) => {
           console.log(result)
+          this.snackBar.open('File uploaded successfully', undefined, {
+            duration: 3000,
+          });
         },
         error: (error: any) => {
           console.error(error)
