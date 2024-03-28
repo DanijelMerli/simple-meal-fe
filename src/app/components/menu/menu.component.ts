@@ -5,17 +5,16 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuImageDialogComponent } from '../menu-image-dialog/menu-image-dialog.component';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.css',
-  providers: [DatePipe]
+  styleUrl: './menu.component.css'
 })
 export class MenuComponent implements OnInit {
   displayedColumns: string[] = ['date', 'regularMeal', 'fitMeal', 'extra-soup', 'extra-dessert'];
@@ -48,10 +47,6 @@ export class MenuComponent implements OnInit {
     } else {
       this.cards = true;
     }
-
-    this.route.queryParams.subscribe(params => {
-      this.week = params['week'];
-    });
   }
 
   ngOnInit(): void {
@@ -138,20 +133,20 @@ export class MenuComponent implements OnInit {
   }
 
   formatDate(date: Date) {
-    let day = date.getDate();
-    let dayStr = day.toString();
-    let month = date.getMonth() + 1;
-    let monthStr = month.toString();
-    let year = date.getFullYear();
+      let day = date.getDate();
+      let dayStr = day.toString();
+      let month = date.getMonth() + 1;
+      let monthStr = month.toString();
+      let year = date.getFullYear();
 
-    if (day < 10) {
-      dayStr = '0' + day.toString();
-    }
-    if (month < 10) {
-      monthStr = '0' + month;
-    }
-
-    return dayStr + '.' + monthStr + '.' + year + '.';
+      if (day < 10) {
+        dayStr = '0' + day.toString();
+      }
+      if (month < 10) {
+        monthStr = '0' + month;
+      }
+  
+      return dayStr + '.' + monthStr + '.' + year + '.';
   }
 
   selectChange(selectedValue: any) {
