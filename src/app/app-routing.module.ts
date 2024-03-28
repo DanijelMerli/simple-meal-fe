@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: "add-meals", component: MealsFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] } },
   { path: "edit-meals", component: EditMealFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] } },
   { path: 'access-denied', component: AccessDeniedPageComponent },
-  { path: 'checklist', component: ChecklistComponent },
+  { path: 'checklist', component: ChecklistComponent, canActivate: [AuthGuard] },
   { path: 'order', component: OrderComponent },
   { path: 'order/:day', component: OrderComponent },
   { path: '', redirectTo: '/order/today', pathMatch: 'full' },
