@@ -33,7 +33,7 @@ export class MenuComponent implements OnInit {
   dates: any[] = ['None'];
   cardsCurrentDate: string = "";
   cardsCurrentMeals: any;
-  week!: string;
+  week: string = "this"
   menuExists: boolean = true;
   weeklyId!: number;
 

@@ -24,17 +24,8 @@ export class NavbarComponent implements OnInit {
 
         const navigationEndEvent = event as NavigationEnd;
         const url = navigationEndEvent.url;
-        if (url.includes('login')) {
-          this.isLogin = true;
-        } else {
-          this.isLogin = false;
-        }
-
-        if (url.includes('home') || url === "/") {
-          this.isHome = true;
-        } else {
-          this.isHome = false;
-        }
+        this.isLogin = url.includes('login');
+        this.isHome = url.includes('home') || url === "/";
       }
     });
   }
