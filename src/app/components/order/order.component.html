@@ -104,7 +104,7 @@
                   </div>
               </form>
             </div>
-            <br> 
+            <br/>
             <div *ngIf="dailyMenu.soup"class="card" >
               <h1>{{dailyMenu.soup.name}}</h1>
               <p>{{dailyMenu.soup.description}}</p>
@@ -133,7 +133,7 @@
                 </form>
               </div>
 
-              <div *ngIf="dailyMenu.dessert"class="card" >
+              <div *ngIf="dailyMenu.dessert" class="card" style="margin-right: 3%;">
                 <h1>{{dailyMenu.dessert.name}}</h1>
                 <p>{{dailyMenu.dessert.description}}</p>
                   <form [formGroup]="arrayForms[3]" (ngSubmit)="saveOrderItem(dailyMenu.dessert.id,3,
