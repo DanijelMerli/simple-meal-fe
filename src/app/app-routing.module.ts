@@ -8,7 +8,6 @@ import { OrderComponent } from './components/order/order.component';
 import { MealsComponent } from './components/meals/meals.component';
 import { MealsFormComponent } from './components/meals-form/meals-form.component';
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
-import { CreateMenuComponent } from './components/create-menu/create-menu.component';
 import { CreateWeeklyMenuComponent } from './components/create-weekly-menu/create-weekly-menu.component';
 import { AuthGuard } from './components/shared/authGuard';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
@@ -29,11 +28,9 @@ const routes: Routes = [
   {path: 'order', component: OrderComponent, canActivate: [AuthGuard]},
   {path: 'order/:day', component: OrderComponent, canActivate: [AuthGuard]},
   {path: '', redirectTo: '/order/today', pathMatch: 'full'},
-  {path: "meals", component: MealsComponent},
-  {path: "add-meals", component: MealsFormComponent},
-  {path: "edit-meals", component: EditMealFormComponent},
-  {path: "create-menu", component: CreateMenuComponent},
-  {path: "create-weekly-menu", component: CreateWeeklyMenuComponent},
+  // {path: "meals", component: MealsComponent},
+  // {path: "add-meals", component: MealsFormComponent},
+  // {path: "edit-meals", component: EditMealFormComponent},
   {path: "weekly-menu", component: CreateWeeklyMenuComponent},
   {path: '**', component: NotFoundPageComponent},
 ];

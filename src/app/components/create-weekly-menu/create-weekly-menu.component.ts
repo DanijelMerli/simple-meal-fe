@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild  } from '@angular/core';
-import { FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MealService } from '../../services/meal.service';
 import { ExtraDTO, FitMealDTO, RegularMealDTO, WeeklyMenuAdminDTO, DailyMenuAdminDTO, WeeklyMenuDTO, DailyMenuDTO } from '../../dtos/MenuDTO';
-import {CdkDropList, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import { CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-weekly-menu',
@@ -38,7 +39,7 @@ export class CreateWeeklyMenuComponent implements OnInit {
     { key: 'dessert', title: 'Desserts' }
   ];
 
-  days = ['Monday']; 
+  days = ['Monday'];
   dates!: string[];
   weekStart!: string;
 
@@ -53,36 +54,36 @@ export class CreateWeeklyMenuComponent implements OnInit {
 
   action!: string;
 
-  constructor(private mealService : MealService, private route: ActivatedRoute, private menuService: MenuService) {
+  errors: { [day: string]: string } = {};
+
+  constructor(private mealService: MealService, private route: ActivatedRoute, private menuService: MenuService, private snackBar: MatSnackBar) {
     let currentMenu;
     this.route.queryParams.subscribe(params => {
       let week = params['week'];
       this.action = params['action'];
-      // if (action == "create") {
       if (week == "this") {
         this.getDatesForRestOfWeek();
       } else {
         this.getDatesForNextWeek();
       }
-      // }
     });
 
     this.days.forEach(day => {
       this.chosenMeals[day] = {};
       this.mealTypeObj.forEach(mealTypeObj => {
-          this.chosenMeals[day][mealTypeObj.key] = [];
+        this.chosenMeals[day][mealTypeObj.key] = [];
       });
     });
 
     if (this.action == 'edit') {
       currentMenu = this.getMenus().then(menuArray => {
-          this.populateChosenMeals(menuArray);
+        this.populateChosenMeals(menuArray);
       });
     }
   }
 
   ngOnInit(): void {
-    this.selectForm = new FormGroup( {
+    this.selectForm = new FormGroup({
       mealType: new FormControl('Regular', Validators.required),
       datePicker: new FormControl('', Validators.required),
     })
@@ -92,8 +93,14 @@ export class CreateWeeklyMenuComponent implements OnInit {
     this.selectedMealType = 'Regular'
     this.getAll();
     this.picForm = new FormGroup({
-      }
+    }
     );
+
+    this.errors["Monday"] = "";
+    this.errors["Tuesday"] = "";
+    this.errors["Wednesday"] = "";
+    this.errors["Thursday"] = "";
+    this.errors["Friday"] = "";
   }
 
   selectChange(selectedValue: any) {
@@ -109,12 +116,21 @@ export class CreateWeeklyMenuComponent implements OnInit {
         this.fits = result.fitMeals;
         this.soups = result.extras.filter((m: { extraType: string }) => m.extraType === "SOUP");
         this.desserts = result.extras.filter((m: { extraType: string }) => m.extraType === "DESSERT");
+        if (this.regulars.length == 0 && this.fits.length == 0 && this.soups.length == 0 && this.desserts.length == 0) {
+          this.snackBar.open('No meals available', undefined, {
+            duration: 3000,
+          });
+        }
       } else {
-        console.log(":-(")
+        this.snackBar.open('No meals available', undefined, {
+          duration: 3000,
+        });
       }
     }
     catch (error) {
-      console.log(error)
+      this.snackBar.open('No meals available', undefined, {
+        duration: 3000,
+      });
     }
   }
 
@@ -127,7 +143,7 @@ export class CreateWeeklyMenuComponent implements OnInit {
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.container.data.length,
       );
       event.previousContainer.data.splice(event.previousIndex, 0, itemToMove);
     }
@@ -142,16 +158,32 @@ export class CreateWeeklyMenuComponent implements OnInit {
   }
 
   saveMenu() {
+    this.errors["Monday"] = "";
+    this.errors["Tuesday"] = "";
+    this.errors["Wednesday"] = "";
+    this.errors["Thursday"] = "";
+    this.errors["Friday"] = "";
     let dailyMenus: DailyMenuAdminDTO[] = [];
+    let hasErrors: boolean = false;
     for (let i = 0; i < this.days.length; i++) {
       let day = this.days[i];
       let date = this.dates[i];
       let meals = this.chosenMeals[day];
-      // console.log(meals);
       let regular: RegularMealDTO = meals['regular']?.[meals['regular']?.length - 1];
       let fit: FitMealDTO = meals['fit']?.[meals['fit']?.length - 1];
       let soup: ExtraDTO = meals['soup']?.[meals['soup']?.length - 1];
       let dessert: ExtraDTO = meals['dessert']?.[meals['dessert']?.length - 1];
+
+      if ((regular && !fit) || (!regular && fit)) {
+        this.errors[day] += "Regular and fit meals always go together! ";
+        hasErrors = true;
+      }
+
+      if ((!regular || !fit) && (soup || dessert)) {
+        this.errors[day] += "Extras have to have regular and fit meals with them! ";
+        hasErrors = true;
+      }
+
 
       let newDailyMenu: DailyMenuAdminDTO = {
         dateMenu: date,
@@ -163,30 +195,45 @@ export class CreateWeeklyMenuComponent implements OnInit {
       dailyMenus.push(newDailyMenu);
     }
 
+    if (hasErrors) {
+      this.snackBar.open('Please look for any possible errors that occurred', undefined, {
+        duration: 5000,
+      });
+      hasErrors = false;
+      return;
+    }
+
     let newWeeklyMenu: WeeklyMenuAdminDTO = {
       dailyMenus: dailyMenus,
       startDate: this.weekStart
     }
 
-    console.log(newWeeklyMenu);
     if (this.action == 'create') {
       this.menuService.saveWeeklyMenu(newWeeklyMenu).subscribe({
         next: (result: any) => {
-          console.log(result);
-          console.log(result.id);
+          this.snackBar.open('New menu created!', undefined, {
+            duration: 3000,
+          });
           this.uploadFile(result.id);
         },
         error: (error: any) => {
-          console.error(error)
+          this.snackBar.open(error?.error?.message, undefined, {
+            duration: 3000,
+          });
         }
       });
     } else if (this.action == 'edit') {
       this.menuService.updateWeeklyMenu(newWeeklyMenu).subscribe({
         next: (result: any) => {
+          this.snackBar.open('Menu changed successfully!', undefined, {
+            duration: 3000,
+          });
           this.uploadFile(this.currentMenuId);
         },
         error: (error: any) => {
-          console.error(error)
+          this.snackBar.open(error?.error?.message, undefined, {
+            duration: 3000,
+          });
         }
       });
     }
@@ -199,24 +246,20 @@ export class CreateWeeklyMenuComponent implements OnInit {
     let allDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     let datesStr = [];
 
-    const startOfWeek = new Date(today); 
+    const startOfWeek = new Date(today);
     startOfWeek.setDate(today.getDate() - dayOfWeek); // Sunday
 
     // (from tomorrow to Friday)
     for (let i = dayOfWeek + 1; i <= 5; i++) {
-        const date = new Date(startOfWeek);
-        date.setDate(startOfWeek.getDate() + i);
-        const formattedDate = `${this.addZeros(date.getDate())}-${this.addZeros(date.getMonth() + 1)}-${date.getFullYear()}`;
-        dates.push(formattedDate);
-        datesStr.push(allDays[i]);
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + i);
+      const formattedDate = `${this.addZeros(date.getDate())}-${this.addZeros(date.getMonth() + 1)}-${date.getFullYear()}`;
+      dates.push(formattedDate);
+      datesStr.push(allDays[i]);
     }
 
     startOfWeek.setDate(today.getDate() - dayOfWeek + 1); // Monday
     this.weekStart = `${this.addZeros(startOfWeek.getDate())}-${this.addZeros(startOfWeek.getMonth() + 1)}-${startOfWeek.getFullYear()}`;
-
-    // console.log('this')
-    // console.log(dates, datesStr);
-    // console.log(this.weekStart);
     this.days = datesStr;
     this.dates = dates;
   }
@@ -228,23 +271,20 @@ export class CreateWeeklyMenuComponent implements OnInit {
     let allDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     let datesStr = [];
 
-    const startOfWeek = new Date(today); 
+    const startOfWeek = new Date(today);
     startOfWeek.setDate(today.getDate() - dayOfWeek + 7); // Next Sunday
-    
+
     // (from Monday to Friday)
     for (let i = 1; i <= 5; i++) {
-        const date = new Date(startOfWeek);
-        date.setDate(startOfWeek.getDate() + i);
-        const formattedDate = `${this.addZeros(date.getDate())}-${this.addZeros(date.getMonth() + 1)}-${date.getFullYear()}`;
-        dates.push(formattedDate);
-        datesStr.push(allDays[i]);
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + i);
+      const formattedDate = `${this.addZeros(date.getDate())}-${this.addZeros(date.getMonth() + 1)}-${date.getFullYear()}`;
+      dates.push(formattedDate);
+      datesStr.push(allDays[i]);
     }
 
     startOfWeek.setDate(today.getDate() - dayOfWeek + 7 + 1); // Next Monday
     this.weekStart = `${this.addZeros(startOfWeek.getDate())}-${this.addZeros(startOfWeek.getMonth() + 1)}-${startOfWeek.getFullYear()}`;
-    // console.log('next')
-    // console.log(dates, datesStr);
-    // console.log(this.weekStart);
     this.days = datesStr;
     this.dates = dates;
   }
@@ -256,28 +296,27 @@ export class CreateWeeklyMenuComponent implements OnInit {
   onFileChanged(event: any) {
     this.selectedFile = event.target.files[0];
     this.previewFile();
-    //this.uploadFile(this.selectedFile)
   }
 
   previewFile() {
     if (this.selectedFile) {
       const reader = new FileReader();
-  
+
       reader.onload = () => {
         this.filePreview = reader.result;
       };
-  
+
       reader.readAsDataURL(this.selectedFile);
     }
   }
 
   private async convertFileToByteArray(file: File): Promise<string> {
-    return new Promise<string> ((resolve,reject)=> {
+    return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result?.toString().replace(/^data:(.*,)?/, '') || '');
       reader.onerror = error => reject(error);
-  })
+    })
   }
 
   uploadFile(id: number) {
@@ -286,7 +325,9 @@ export class CreateWeeklyMenuComponent implements OnInit {
       formData.append('file', this.selectedFile);
       this.menuService.uploadFile(formData, id).subscribe({
         next: (result: any) => {
-          console.log(result)
+          this.snackBar.open('File uploaded successfully', undefined, {
+            duration: 3000,
+          });
         },
         error: (error: any) => {
           console.error(error)
