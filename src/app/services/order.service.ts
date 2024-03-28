@@ -29,14 +29,33 @@ export class OrderService {
   
     if (!this.orderItems)
         this.orderItems=[];
-    if (type!=="LARGE" && type!=="SMALL")
+
+    if (type==="LARGE" || type==="SMALL") {
+      const foundItem = this.orderItems.find(el => el.mealId==id && el.mealSize==type);
+      if (foundItem) 
+          foundItem.mealCount=foundItem.mealCount+quantity;
+          
+       else 
+          this.orderItem = new OrderItemDTO(id, quantity,type);
+
+      }
+    else {
+
+      const foundItem = this.orderItems.find(el => el.mealId === id);
+        if (foundItem) {
+          foundItem.mealCount=foundItem.mealCount+quantity;
+      
+        }
+        else 
         this.orderItem = new OrderItemDTO(id, quantity,null);
-    else 
-        this.orderItem = new OrderItemDTO(id, quantity,type);
+        
+    }
 
     this.orderItems.push(this.orderItem);
       
   }
+
+  
 
   deleteOrderItem(index: number) {
     this.orderItems.splice(index,1);
@@ -55,6 +74,22 @@ export class OrderService {
         this.orderItems=[];
         
         return this.http.post<OrderDTO>(`${environment.apiUrl}order`,this.order,{headers});
+  }
+
+  isHoliday(): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiUrl}meals/holiday`);
+  }
+
+  isHolidayTomorrow(): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiUrl}meals/holidayTomorrow`);
+  }
+  
+  isWeekend(): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiUrl}meals/weekend`);
+  }
+  
+  isWeekendTomorrow(): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiUrl}meals/weekendTomorrow`);
   }
 
   

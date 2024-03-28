@@ -86,6 +86,7 @@ import { ChecklistComponent } from './components/checklist/checklist.component';
     MatDatepickerModule,
     MatTooltip,
     MatSelect,
+    DatePipe,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
