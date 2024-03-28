@@ -11,35 +11,35 @@ export class MealService {
 
   constructor(private http: HttpClient) { }
 
-  getMeals():Observable<any>{
+  getMeals(): Observable<any> {
     return this.http.get(`${environment.apiUrl}meal`);
   }
 
-  addRegularMeal(regular: CreateRegularMealDTO):Observable<any>{
+  addRegularMeal(regular: CreateRegularMealDTO): Observable<any> {
     return this.http.post(`${environment.apiUrl}meal/regular`, regular);
   }
 
-  addFitMeal(fit: CreateFitMealDTO):Observable<any>{
+  addFitMeal(fit: CreateFitMealDTO): Observable<any> {
     return this.http.post(`${environment.apiUrl}meal/fit`, fit);
   }
 
-  addExtraMeal(extra: CreateExtraDTO):Observable<any>{
+  addExtraMeal(extra: CreateExtraDTO): Observable<any> {
     return this.http.post(`${environment.apiUrl}meal/extra`, extra);
   }
 
-  editRegularMeal(id: number, updatedMealData: CreateRegularMealDTO):Observable<any>{
+  editRegularMeal(id: number, updatedMealData: CreateRegularMealDTO): Observable<any> {
     return this.http.put(`${environment.apiUrl}meal/regular/${id}`, updatedMealData);
   }
 
-  editFitMeal(id: number, updatedMealData: CreateFitMealDTO):Observable<any>{
+  editFitMeal(id: number, updatedMealData: CreateFitMealDTO): Observable<any> {
     return this.http.put(`${environment.apiUrl}meal/fit/${id}`, updatedMealData);
   }
 
-  editExtra(id: number, updatedMealData: CreateExtraDTO):Observable<any>{
+  editExtra(id: number, updatedMealData: CreateExtraDTO): Observable<any> {
     return this.http.put(`${environment.apiUrl}meal/extra/${id}`, updatedMealData);
   }
-  
-  deleteMeals(id:number):Observable<any>{
+
+  deleteMeals(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}meal/${id}`);
   }
 }

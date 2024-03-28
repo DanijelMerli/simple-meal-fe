@@ -5,15 +5,14 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from  '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatTableModule} from "@angular/material/table";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import { HomePageComponent } from './components/home-page/home-page.component';
+import { MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from "@angular/material/paginator";
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
@@ -29,8 +28,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MealsComponent } from './components/meals/meals.component';
 import { MealsFormComponent } from './components/meals-form/meals-form.component';
 import { EditMealFormComponent } from './components/edit-meal-form/edit-meal-form.component';
-import {DragDropModule} from '@angular/cdk/drag-drop';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltip } from '@angular/material/tooltip';
 import { CreateWeeklyMenuComponent } from './components/create-weekly-menu/create-weekly-menu.component';
 import { MatSelect } from '@angular/material/select';
@@ -39,12 +38,12 @@ import { NotFoundPageComponent } from './components/pages/not-found-page/not-fou
 import { InvalidTokenInterceptor } from './components/shared/invalidTokenInterceptor';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { ChecklistComponent } from './components/checklist/checklist.component';
+import { MenuImageDialogComponent } from './components/menu-image-dialog/menu-image-dialog.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent,
     NavbarComponent,
     LoginComponent,
     RegistrationComponent,
@@ -57,7 +56,8 @@ import { ChecklistComponent } from './components/checklist/checklist.component';
     AccessDeniedPageComponent,
     NotFoundPageComponent,
     ChecklistComponent,
-    
+    MenuImageDialogComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -81,7 +81,7 @@ import { ChecklistComponent } from './components/checklist/checklist.component';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    DatePipe, 
+    DatePipe,
     DragDropModule,
     MatDatepickerModule,
     MatTooltip,

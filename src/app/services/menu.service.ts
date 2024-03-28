@@ -11,11 +11,11 @@ export class MenuService {
 
   constructor(private http: HttpClient) { }
 
-  getMenu():Observable<any>{
+  getMenu(): Observable<any> {
     return this.http.get(`${environment.apiUrl}meals/this-week`);
   }
 
-  getNextMenu():Observable<any>{
+  getNextMenu(): Observable<any> {
     return this.http.get(`${environment.apiUrl}meals/next-week`);
   }
 
@@ -29,5 +29,9 @@ export class MenuService {
 
   uploadFile(formData: FormData, id: number): Observable<any> {
     return this.http.post(`${environment.apiUrl}meals/uploadFile/${id}`, formData);
+  }
+
+  getImage(id: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}meals/image/${id}`, { responseType: 'blob' });
   }
 }

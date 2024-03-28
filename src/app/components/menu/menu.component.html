@@ -4,6 +4,7 @@
 
 <div *ngIf="!cards && menuExists" class="table-container">
   <h1>Week {{startDateStr}} - {{endDateStr}}</h1>
+  <button (click)="seeImage()">See image</button>
   <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
 
     <ng-container matColumnDef="date">

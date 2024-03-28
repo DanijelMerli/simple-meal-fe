@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomePageComponent } from './home-page.component';
+import { MenuImageDialogComponent } from './menu-image-dialog.component';
 
-describe('HomePageComponent', () => {
-  let component: HomePageComponent;
-  let fixture: ComponentFixture<HomePageComponent>;
+describe('MenuImageDialogComponent', () => {
+  let component: MenuImageDialogComponent;
+  let fixture: ComponentFixture<MenuImageDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomePageComponent]
+      declarations: [MenuImageDialogComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(HomePageComponent);
+    fixture = TestBed.createComponent(MenuImageDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
