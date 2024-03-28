@@ -86,6 +86,7 @@ import { MenuImageDialogComponent } from './components/menu-image-dialog/menu-im
     MatDatepickerModule,
     MatTooltip,
     MatSelect,
+    DatePipe,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
