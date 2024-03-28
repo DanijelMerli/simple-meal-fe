@@ -138,7 +138,8 @@ export class OrderComponent implements OnInit {
         duration: 2000,
       });
     }, error => {
-      this.snackBar.open('  Your order was NOT  successfully submitted', undefined, {
+      console.log(error)
+      this.snackBar.open(error?.error?.message, undefined, {
         duration: 2000,
       })
     
